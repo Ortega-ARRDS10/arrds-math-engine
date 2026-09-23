@@ -39,11 +39,12 @@ La v0.1 organiza el código en capas **(propuesta)**, compatibles con esa cascad
 | 3 · Contexto físico | unidades y análisis dimensional | `units` |
 | 4 · Orquestación | contrato JSON, registro de operaciones | `api` (la HAL y el orquestador multi-agente quedan fuera de este repo) |
 
-## Tensión abierta: dependencias
+## Dependencias (decidido)
 
-Los documentos fijan SymPy/SciPy/mpmath/NumPy; la v0.1 usa **solo biblioteca estándar** para ser una
-referencia auditable y portable. Cómo se reconcilian está en
-[ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md). **Decisión pendiente de Arrds.**
+Los documentos fijan SymPy/SciPy/mpmath/NumPy; la v0.1 se escribió solo con la biblioteca estándar. Arrds
+decidió un esquema **híbrido** ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)): SymPy
+(+mpmath) obligatorio para la Capa 1 simbólica, núcleo numérico propio como verificación cruzada, y
+NumPy/SciPy fuera hasta que el rendimiento lo justifique.
 
 ## Relación con el frontend
 

@@ -20,8 +20,14 @@
 - [x] Tests `unittest` por módulo, contrato y servidor
 - [x] Panel de pruebas local (catálogo, editor JSON, gráficas SVG, banco, integridad, `Ctrl+K`)
 - [ ] **Decidir la licencia** (ver [POLITICA_DE_USO.md](POLITICA_DE_USO.md#licencia))
-- [ ] **Decidir la política de dependencias** ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md))
+- [x] Política de dependencias: híbrido con SymPy obligatorio ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md))
 - [ ] CI en GitHub Actions que corra tests + banco en cada push (el roadmap de los documentos pone CI primero)
+
+## v0.2 — Matemática A y B (cálculo)
+
+- [ ] Conversor AST propio ↔ SymPy (lista blanca, sin `sympify`) + verificación cruzada numérica
+- [ ] Temario extraído de los libros de cálculo a `.md` (fuente de las especificaciones)
+- [ ] Límites, primitivas, series, estudio de funciones, varias variables (a detallar con el temario)
 
 ## v0.2 — ampliación numérica
 
@@ -32,7 +38,7 @@
 - [ ] Unidades dentro de las expresiones (`3 m/s * 2 s`) con verificación dimensional
 - [ ] Propagación de incertidumbre (lineal por derivadas; Monte Carlo como contraste)
 - [ ] Explicación paso a paso en los resultados (campo `steps`), alineado con la pedagogía del producto
-- [ ] Cascada de fallback hacia precisión extendida (según la decisión del ADR 0001)
+- [ ] Cascada de fallback hacia precisión extendida con mpmath
 
 ## v0.3+ — integración con Arrds Studio
 

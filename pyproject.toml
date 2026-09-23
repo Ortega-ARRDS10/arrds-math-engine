@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arrds-math-engine"
+version = "0.1.0"
+description = "Motor matemático de Arrds Studio"
+readme = "README.md"
+requires-python = ">=3.11"
+# ADR 0001: única dependencia permitida (trae mpmath). Cualquier otra requiere un ADR nuevo.
+dependencies = ["sympy>=1.13"]
+
+[tool.setuptools.packages.find]
+include = ["arrds_math*"]
+
+[tool.setuptools.package-data]
+arrds_math = ["web/*.html"]

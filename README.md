@@ -4,8 +4,9 @@ Motor matemático de **Arrds Studio**: la estación de trabajo matemática y de 
 y profesionales (visión completa en [docs/contexto/](docs/contexto/README.md)). Es la primera entrega
 pública del ecosistema Arrds.
 
-Esta versión (**v0.1**) es la **implementación de referencia**: Python 3.11+, solo biblioteca estándar,
-sin `eval`. Toda operación se expone con un contrato JSON independiente del lenguaje y se valida contra
+Esta versión (**v0.1**) es la **implementación de referencia**: Python 3.11+, sin `eval`. El núcleo
+numérico usa solo la biblioteca estándar; desde la v0.2 la parte simbólica usa **SymPy** (+mpmath),
+verificada siempre contra el núcleo numérico ([ADR 0001](docs/adr/0001-implementacion-de-referencia-stdlib.md)). Toda operación se expone con un contrato JSON independiente del lenguaje y se valida contra
 un banco de casos con valores de referencia analíticos.
 
 | Área | Qué cubre |
@@ -20,6 +21,12 @@ un banco de casos con valores de referencia analíticos.
 
 Todo método iterativo informa **si convergió, cuántas iteraciones usó y su error estimado**. Todo error
 tiene un `code` estable y, cuando aplica, un `hint` que explica por qué falló el método.
+
+## Instalación
+
+```bash
+pip install -e .
+```
 
 ## Uso rápido
 
