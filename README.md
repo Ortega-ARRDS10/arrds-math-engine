@@ -1,25 +1,75 @@
-# Arrds Studio — Documentación
+# arrds-math-engine
 
-Estación de trabajo matemática y de ingeniería para estudiantes y profesionales. Integra cálculo simbólico exacto, álgebra lineal avanzada, análisis complejo y transformadas, visualización 2D/3D de alto rendimiento, y un agente de IA académico entrenado con material oficial de cátedra (Matemática Inicial, A, B, C, D).
+Motor matemático de **Arrds Studio**: la estación de trabajo matemática y de ingeniería para estudiantes
+y profesionales (visión completa en [docs/contexto/](docs/contexto/README.md)). Es la primera entrega
+pública del ecosistema Arrds.
 
-Objetivo: no competir con calculadoras web, sino con herramientas profesionales, manteniendo pago único, alto rendimiento, portabilidad y explicaciones paso a paso.
+Esta versión (**v0.1**) es la **implementación de referencia**: Python 3.11+, solo biblioteca estándar,
+sin `eval`. Toda operación se expone con un contrato JSON independiente del lenguaje y se valida contra
+un banco de casos con valores de referencia analíticos.
 
-## Índice de documentos
-
-| Archivo | Contenido |
+| Área | Qué cubre |
 |---|---|
-| [01-vision-general.md](01-vision-general.md) | Qué es Arrds Studio, objetivos centrales, stack tecnológico, estado actual |
-| [02-principios-y-workflow.md](02-principios-y-workflow.md) | Principios de ingeniería, secuencia del roadmap, forma de trabajo preferida |
-| [03-arquitectura-y-componentes.md](03-arquitectura-y-componentes.md) | Arquitectura detallada: motor matemático, RAG, orquestador multi-agente, licenciamiento, marketplace |
-| [04-repositorios-github.md](04-repositorios-github.md) | Estructura de repositorios GitHub actuales y planeados |
-| [05-guia-ingenieria-software-ia.md](05-guia-ingenieria-software-ia.md) | Guía de aprendizaje de ingeniería de software para dirigir el proyecto con IA |
-| [06-analisis-herramientas-dev.md](06-analisis-herramientas-dev.md) | Análisis de repositorios/herramientas evaluadas para el flujo de desarrollo (Claude Code) |
+| Expresiones y simbólico | parser propio (multiplicación implícita, `^`/`**`, `!`), modo real/complejo, derivada simbólica, simplificación conservadora, LaTeX |
+| Cálculo numérico | raíces (bisección, Newton, secante, Brent), derivada (Richardson), integrales (Simpson adaptativo, Gauss–Legendre, trapecio), EDO (RK4, Dormand–Prince RK45) |
+| Álgebra lineal | LU, solve con refinamiento, det, inversa, cond, QR, mínimos cuadrados, autovalores simétricos |
+| Polinomios y estadística | raíces complejas, ajuste por QR, descriptiva con error estándar, regresión con incertidumbres |
+| Matemática C | gradiente, divergencia, rotor, laplaciano, jacobiano (simbólicos + evaluación) |
+| Matemática D | FFT/DFT, espectro, funciones de transferencia, Bode |
+| Unidades | SI, derivadas, imperiales, prefijos, conversión con verificación dimensional |
 
-## Contexto del autor
+Todo método iterativo informa **si convergió, cuántas iteraciones usó y su error estimado**. Todo error
+tiene un `code` estable y, cuando aplica, un `hint` que explica por qué falló el método.
 
-Arrds — estudiante de Ingeniería Aeroespacial en la Universidad Nacional de La Plata (UNLP). Conocimientos de base en Python y C++, sin formación formal en ingeniería de software. Aborda el proyecto con un enfoque de "desarrollo de conocimiento": aprender mientras construye, usando IA como apoyo de aprendizaje, no como reemplazo.
+## Uso rápido
 
-Primera entrega pública del ecosistema: el repositorio `arrds-math-engine` (motor matemático central), financiado inicialmente a través de GitHub Sponsors del proyecto motor-OCR.
+```python
+from arrds_math.api import run
 
----
-*Generado a partir de la memoria del proyecto y los documentos de Arrds Studio en Claude. Última actualización: 2026-09-22.*
+run("numeric.brent", {"expression": "x^3 - 2x - 5", "a": 2, "b": 3})
+# {'ok': True, 'result': {'value': 2.0945514815423265, 'converged': True,
+#   'iterations': 7, 'error_estimate': 2.5e-13, 'method': 'brent', ...}, 'elapsed_ms': 0.2}
+
+run("units.convert", {"value": 1, "from": "kN*m", "to": "lbf*ft"})   # 737.5621…
+```
+
+Las funciones también se pueden usar directo (`arrds_math.numeric.brent(...)`), pero la API es el
+contrato estable.
+
+## Tests y banco de verificación
+
+```bash
+python -m unittest discover -s tests
+```
+
+```bash
+python -m arrds_math.selftest
+```
+
+El segundo comando corre el banco (casos con valor de referencia y tolerancia); `--module units` filtra
+y `--export casos.json` los exporta para validar otra implementación.
+
+## Panel de pruebas
+
+```bash
+python -m arrds_math.server
+```
+
+Abre <http://127.0.0.1:8765>: catálogo de operaciones, editor JSON con ejemplos, gráficas, banco de
+pruebas con indicador de integridad y barra de comandos (`Ctrl+K`). Es un banco de pruebas local, **no**
+la interfaz de Arrds Studio. Escucha solo en `127.0.0.1` y funciona sin conexión.
+
+## Documentación
+
+- [docs/CONTEXTO.md](docs/CONTEXTO.md) — el motor dentro de Arrds Studio.
+- [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) — módulos, flujo y contrato JSON.
+- [docs/CONVENCIONES_NUMERICAS.md](docs/CONVENCIONES_NUMERICAS.md) — tolerancias, convenciones, unidades.
+- [docs/FLUJO_DE_TRABAJO.md](docs/FLUJO_DE_TRABAJO.md) — ramas, cómo añadir una operación, definición de "listo".
+- [docs/TAREAS.md](docs/TAREAS.md) — roadmap.
+- [docs/POLITICA_DE_USO.md](docs/POLITICA_DE_USO.md) — alcance, responsabilidad, privacidad, licencia.
+- [docs/adr/](docs/adr/) — decisiones de arquitectura.
+
+## Licencia
+
+**Pendiente de decisión** (ver [POLITICA_DE_USO.md](docs/POLITICA_DE_USO.md#licencia)). Mientras no haya
+un archivo `LICENSE`, rige "todos los derechos reservados".
