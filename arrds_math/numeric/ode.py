@@ -7,9 +7,15 @@ x'' + 2ζω x' + ω² x = 0 se usa y1 = x, y2 = x'.
 import math
 
 from ..errors import ConvergenceError, InvalidInputError
-from ._common import check_tol
+from ._common import IterativeResult, check_tol
 
 MAX_STEPS = 200_000
+
+_HINT_STIFF = (
+    "Un método explícito necesita pasos diminutos cuando el sistema es rígido (escalas de "
+    "tiempo muy distintas) o la solución explota en tiempo finito. Revisá el modelo o "
+    "acortá el intervalo; los métodos implícitos (BDF) están en el roadmap v0.2."
+)
 
 
 def _as_system(f, n):
@@ -40,14 +46,8 @@ def _axpy(y, h, *pairs):
     return out
 
 
-def rk4(f, t0, y0, t1, steps=1000):
-    """Runge–Kutta clásico de 4.º orden con paso fijo."""
-    y0 = [float(v) for v in (y0 if isinstance(y0, (list, tuple)) else [y0])]
-    if steps < 1 or steps > MAX_STEPS:
-        raise InvalidInputError(f"steps debe estar entre 1 y {MAX_STEPS}")
-    f = _as_system(f, len(y0))
-    h = (t1 - t0) / steps
-    t, y = float(t0), y0
+def _rk4_run(f, t0, y, h, steps):
+    t = float(t0)
     ts, ys = [t], [list(y)]
     for i in range(steps):
         k1 = f(t, y)
@@ -58,7 +58,32 @@ def rk4(f, t0, y0, t1, steps=1000):
         t = t0 + (i + 1) * h
         ts.append(t)
         ys.append(y)
-    return {"t": ts, "y": ys, "method": "rk4", "steps": steps, "rejected": 0}
+    return ts, ys
+
+
+def rk4(f, t0, y0, t1, steps=1000):
+    """Runge–Kutta clásico de 4.º orden con paso fijo.
+
+    El error se estima por duplicación de paso (Richardson): se repite la
+    integración con la mitad de pasos y se compara el estado final,
+    err ≈ |y_h − y_H| / (r⁴ − 1) con r = H/h.
+    """
+    y0 = [float(v) for v in (y0 if isinstance(y0, (list, tuple)) else [y0])]
+    if steps < 1 or steps > MAX_STEPS:
+        raise InvalidInputError(f"steps debe estar entre 1 y {MAX_STEPS}")
+    f = _as_system(f, len(y0))
+    t0, t1 = float(t0), float(t1)
+    ts, ys = _rk4_run(f, t0, y0, (t1 - t0) / steps, steps)
+    err = math.nan
+    coarse = steps // 2
+    if coarse >= 1:
+        _, yc = _rk4_run(f, t0, y0, (t1 - t0) / coarse, coarse)
+        r = steps / coarse
+        err = max(abs(a - b) for a, b in zip(ys[-1], yc[-1])) / (r ** 4 - 1)
+    return IterativeResult(
+        {"t": ts, "y": ys}, True, steps, err, "rk4",
+        {"steps": steps, "rejected": 0, "error_kind": "richardson_final_state"},
+    )
 
 
 # Tablero de Butcher de Dormand–Prince 5(4)
@@ -87,14 +112,15 @@ def rk45(f, t0, y0, t1, rtol=1e-8, atol=1e-10, h0=None, max_steps=MAX_STEPS):
     direction = 1.0 if t1 >= t else -1.0
     span = abs(t1 - t)
     if span == 0:
-        return {"t": [t], "y": [list(y)], "method": "rk45", "steps": 0, "rejected": 0}
+        return IterativeResult({"t": [t], "y": [list(y)]}, True, 0, 0.0, "rk45", {"steps": 0, "rejected": 0})
     h = abs(h0) if h0 else span / 100
     ts, ys = [t], [list(y)]
     k1 = f(t, y)
     accepted = rejected = 0
+    global_err = 0.0  # suma de los errores locales estimados (cota heurística del global)
     while (t1 - t) * direction > 1e-14 * max(1.0, abs(t1)):
         if accepted + rejected > max_steps:
-            raise ConvergenceError(f"rk45 superó {max_steps} pasos (¿sistema rígido?)")
+            raise ConvergenceError(f"rk45 superó {max_steps} pasos (¿sistema rígido?)", hint=_HINT_STIFF)
         h = min(h, abs(t1 - t))
         hs = h * direction
         ks = [k1]
@@ -102,12 +128,14 @@ def rk45(f, t0, y0, t1, rtol=1e-8, atol=1e-10, h0=None, max_steps=MAX_STEPS):
             yi = _axpy(y, hs, *zip(_A[s], ks))
             ks.append(f(t + _C[s] * hs, yi))
         y5 = _axpy(y, hs, *zip(_B5, ks))
-        err = 0.0
+        err = local = 0.0
         for i in range(n):
             e_i = hs * sum((b5 - b4) * k[i] for b5, b4, k in zip(_B5, _B4, ks))
             scale = atol + rtol * max(abs(y[i]), abs(y5[i]))
             err = max(err, abs(e_i) / scale)
+            local = max(local, abs(e_i))
         if err <= 1.0:
+            global_err += local
             t += hs
             y = y5
             k1 = ks[6]  # FSAL: la última etapa es la primera del siguiente paso
@@ -119,8 +147,11 @@ def rk45(f, t0, y0, t1, rtol=1e-8, atol=1e-10, h0=None, max_steps=MAX_STEPS):
         factor = 0.9 * err ** -0.2 if err > 0 else 5.0
         h *= min(5.0, max(0.2, factor))
         if h < 1e-14 * max(1.0, abs(t)):
-            raise ConvergenceError(f"Paso demasiado pequeño en t = {t:g} (¿singularidad o rigidez?)")
-    return {"t": ts, "y": ys, "method": "rk45", "steps": accepted, "rejected": rejected}
+            raise ConvergenceError(f"Paso demasiado pequeño en t = {t:g} (¿singularidad o rigidez?)", hint=_HINT_STIFF)
+    return IterativeResult(
+        {"t": ts, "y": ys}, True, accepted, global_err, "rk45",
+        {"steps": accepted, "rejected": rejected, "error_kind": "sum_local_errors"},
+    )
 
 
 def solve_ivp(f, t0, y0, t1, method="rk45", **kwargs):

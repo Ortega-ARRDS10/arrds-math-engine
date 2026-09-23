@@ -5,6 +5,12 @@ import math
 from ..errors import ConvergenceError, DomainError, InvalidInputError
 from ._common import IterativeResult, as_callable, check_finite, check_tol
 
+_HINT_BRACKET = (
+    "Los métodos con intervalo necesitan que f cambie de signo en [a, b] (teorema de "
+    "Bolzano). Si no cambia, puede no haber raíz o haber un número par de ellas: "
+    "graficá f o achicá el intervalo."
+)
+
 
 def _eval(f, x):
     return check_finite(f(x), f"f({x:g})")
@@ -21,7 +27,7 @@ def bisection(f, a, b, tol=1e-12, max_iter=200):
     if fb == 0:
         return IterativeResult(b, True, 0, 0.0, "bisection")
     if fa * fb > 0:
-        raise DomainError("f(a) y f(b) deben tener signos opuestos")
+        raise DomainError("f(a) y f(b) deben tener signos opuestos", hint=_HINT_BRACKET)
     for i in range(1, max_iter + 1):
         m = 0.5 * (a + b)
         fm = _eval(f, m)
@@ -54,12 +60,20 @@ def newton(f, x0, df=None, tol=1e-12, max_iter=100):
         fx = _eval(f, x)
         dfx = _eval(df, x)
         if dfx == 0:
-            raise ConvergenceError(f"Derivada nula en x = {x:g}; Newton no puede continuar")
+            raise ConvergenceError(
+                f"Derivada nula en x = {x:g}; Newton no puede continuar",
+                hint="La tangente es horizontal y no corta el eje. Probá otro x0 o un método "
+                     "con intervalo (brent/bisection).",
+            )
         step = fx / dfx
         x -= step
         if abs(step) <= tol * max(1.0, abs(x)):
             return IterativeResult(x, True, i, abs(step), "newton", {"residual": abs(_eval(f, x))})
-    raise ConvergenceError(f"Newton no convergió en {max_iter} iteraciones (último x = {x:g})")
+    raise ConvergenceError(
+        f"Newton no convergió en {max_iter} iteraciones (último x = {x:g})",
+        hint="Newton solo converge si x0 está cerca de la raíz; lejos puede oscilar o "
+             "diverger. Acotá la raíz con un cambio de signo y usá brent.",
+    )
 
 
 def secant(f, x0, x1, tol=1e-12, max_iter=100):
@@ -91,7 +105,7 @@ def brent(f, a, b, tol=1e-12, max_iter=200):
     a, b = float(a), float(b)
     fa, fb = _eval(f, a), _eval(f, b)
     if fa * fb > 0:
-        raise DomainError("f(a) y f(b) deben tener signos opuestos")
+        raise DomainError("f(a) y f(b) deben tener signos opuestos", hint=_HINT_BRACKET)
     if abs(fa) < abs(fb):
         a, b, fa, fb = b, a, fb, fa
     c, fc = a, fa

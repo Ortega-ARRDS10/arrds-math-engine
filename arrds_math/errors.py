@@ -3,6 +3,10 @@
 Todo error que el motor lance de forma intencionada hereda de
 ``MathEngineError`` y lleva un ``code`` estable, pensado para que la API
 y el panel de pruebas puedan clasificar fallos sin parsear mensajes.
+
+Además, cada error puede llevar un ``hint``: la explicación pedagógica de
+*por qué* falló el método y qué probar (principio "nunca un fallo
+silencioso" de los documentos de contexto).
 """
 
 
@@ -11,16 +15,26 @@ class MathEngineError(Exception):
 
     code = "ENGINE_ERROR"
 
+    def __init__(self, message="", hint=None):
+        super().__init__(message)
+        self.hint = hint
+
+    def to_dict(self):
+        out = {"code": self.code, "message": str(self)}
+        if self.hint:
+            out["hint"] = self.hint
+        return out
+
 
 class ParseError(MathEngineError):
     """La expresión no es sintácticamente válida."""
 
     code = "PARSE_ERROR"
 
-    def __init__(self, message, position=None):
+    def __init__(self, message, position=None, hint=None):
         if position is not None:
             message = f"{message} (posición {position})"
-        super().__init__(message)
+        super().__init__(message, hint)
         self.position = position
 
 

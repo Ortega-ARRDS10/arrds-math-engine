@@ -15,8 +15,10 @@ Notas de diseño:
 * ``**`` es sinónimo de ``^``.
 * ``-2^2`` = -4 (la potencia liga más fuerte que el signo), como en la
   notación matemática habitual.
-* Multiplicación implícita: ``2x``, ``2(x+1)``, ``(a)(b)``, ``3 sin(x)``.
-  Solo se inserta cuando el siguiente token es un identificador o ``(``.
+* Multiplicación implícita: ``2x``, ``2(x+1)``, ``(a)(b)``, ``3 sin(x)``,
+  ``x(x+1)``. Solo se inserta cuando el siguiente token es un identificador
+  o ``(``. ``nombre(...)`` es una llamada solo si ``nombre`` es una función
+  del catálogo (``FUNCTIONS``); si no, se lee como producto.
 * Nunca se usa ``eval`` de Python: el parser es la única puerta de entrada.
 """
 
@@ -26,7 +28,8 @@ from ..errors import ParseError
 from .nodes import Binary, Call, Num, Unary, Var
 
 MAX_EXPRESSION_LENGTH = 10_000
-MAX_DEPTH = 200
+# Cada nivel de paréntesis consume ~7 marcos de pila de Python (límite 1000).
+MAX_DEPTH = 100
 
 _TOKEN_RE = re.compile(
     r"""
@@ -168,7 +171,9 @@ class _Parser:
             return Num(float(tok.text))
         if tok.kind == "ident":
             self.advance()
-            if self.accept("("):
+            # ``nombre(`` es llamada solo si ``nombre`` es una función conocida;
+            # si no, es multiplicación implícita: 2x(x+1) = 2·x·(x+1).
+            if tok.text in _function_names() and self.accept("("):
                 args = []
                 self.enter()
                 if not self.accept(")"):
@@ -187,6 +192,13 @@ class _Parser:
             return node
         found = tok.text or "fin de la expresión"
         raise ParseError(f"Se esperaba un número, variable o '(' y se encontró {found!r}", tok.pos)
+
+
+def _function_names():
+    # Import diferido: el evaluador importa este módulo.
+    from .evaluator import FUNCTIONS
+
+    return FUNCTIONS
 
 
 def parse(source):

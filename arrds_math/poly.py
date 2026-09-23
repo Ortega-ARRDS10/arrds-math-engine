@@ -8,6 +8,7 @@ import cmath
 import math
 
 from .errors import ConvergenceError, InvalidInputError
+from .numeric._common import IterativeResult
 
 
 def _coeffs(p):
@@ -59,8 +60,10 @@ def polyadd(p, q):
 def roots(p, tol=1e-14, max_iter=2000):
     """Todas las raíces (complejas) por Durand–Kerner + pulido con Newton.
 
-    Devuelve una lista de complejos; las raíces reales tienen parte
-    imaginaria exactamente 0.
+    Devuelve ``IterativeResult`` cuyo ``value`` es la lista de complejos (las
+    raíces reales tienen parte imaginaria exactamente 0). El error estimado
+    es el mayor paso de Newton del pulido final (≈ distancia a la raíz
+    exacta para raíces simples; las múltiples convergen peor).
     """
     p = _coeffs(p)
     # Raíces nulas: se factorizan exactamente para no perder precisión.
@@ -70,13 +73,14 @@ def roots(p, tol=1e-14, max_iter=2000):
         zeros += 1
     n = len(p) - 1
     if n == 0:
-        return [0j] * zeros
+        return IterativeResult([0j] * zeros, True, 0, 0.0, "durand_kerner")
     lead = p[0]
     monic = [c / lead for c in p]
     # Cota de Cauchy para escalar el punto de arranque.
     radius = 1 + max(abs(c) for c in monic[1:])
+    abs_coeffs = [abs(c) for c in monic]
     z = [radius * cmath.exp(1j * (2 * math.pi * k / n + 0.4)) for k in range(n)]
-    for _ in range(max_iter):
+    for it in range(1, max_iter + 1):
         delta = 0.0
         for i in range(n):
             denom = 1
@@ -90,21 +94,45 @@ def roots(p, tol=1e-14, max_iter=2000):
             delta = max(delta, abs(step))
         if delta <= tol * radius:
             break
+        # Criterio de retroceso: si |p(z)| ya está al nivel del redondeo en
+        # todas las aproximaciones, seguir iterando no mejora nada (típico de
+        # raíces múltiples, que convergen solo linealmente).
+        if all(abs(polyval(monic, zi)) <= 16 * 2.220446049250313e-16 * polyval(abs_coeffs, abs(zi))
+               for zi in z):
+            break
     else:
-        raise ConvergenceError("Durand–Kerner no convergió")
+        raise ConvergenceError(
+            "Durand–Kerner no convergió",
+            hint="Suele pasar con raíces múltiples o coeficientes de escalas muy distintas. "
+                 "Normalizá los coeficientes o factorizá las raíces conocidas.",
+        )
     dp = polyder(monic)
-    polished = []
+    polished, errs = [], []
     for r in z:
+        last = 0.0
         for _ in range(3):
             d = polyval(dp, r)
             if d == 0:
                 break
-            r -= polyval(monic, r) / d
-        if abs(r.imag) <= 1e-10 * max(1.0, abs(r)):
-            r = complex(r.real, 0.0)
+            last = polyval(monic, r) / d
+            r -= last
         polished.append(r)
-    polished.sort(key=lambda c: (round(c.real, 12), c.imag))
-    return polished + [0j] * zeros
+        errs.append(max(abs(last), 2.220446049250313e-16 * max(1.0, abs(r))))
+    # Raíces agrupadas (múltiples o casi múltiples): el paso de Newton
+    # subestima el error, que escala como eps^(1/m). Se usa el diámetro del
+    # grupo como estimación (conservadora).
+    for i, r in enumerate(polished):
+        for j, q in enumerate(polished):
+            if i != j and abs(r - q) <= 1e-3 * max(1.0, abs(r)):
+                errs[i] = max(errs[i], abs(r - q))
+    # Parte imaginaria indistinguible de cero dentro del error -> raíz real.
+    for i, r in enumerate(polished):
+        if abs(r.imag) <= max(1e-10 * max(1.0, abs(r)), errs[i]):
+            polished[i] = complex(r.real, 0.0)
+    order = sorted(range(n), key=lambda k: (round(polished[k].real, 12), polished[k].imag))
+    polished = [polished[k] for k in order]
+    err = max(errs)
+    return IterativeResult(polished + [0j] * zeros, True, it, err, "durand_kerner")
 
 
 def polyfit(x, y, degree):

@@ -117,7 +117,11 @@ def _coerce(value, complex_mode, what):
         if value.imag == 0 or (not complex_mode and abs(value.imag) <= 1e-15 * max(1.0, abs(value.real))):
             value = value.real
         elif not complex_mode:
-            raise DomainError(f"{what} produce un resultado complejo; active complex_mode para permitirlo")
+            raise DomainError(
+                f"{what} produce un resultado complejo; active complex_mode para permitirlo",
+                hint="En modo real un complejo inesperado suele indicar un error (ln de un "
+                     "negativo, raíz de un negativo). Si es intencional, activá complex_mode.",
+            )
     if isinstance(value, bool):
         value = float(value)
     if isinstance(value, int):

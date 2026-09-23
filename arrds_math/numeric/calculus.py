@@ -5,6 +5,8 @@ import math
 from ..errors import ConvergenceError, InvalidInputError
 from ._common import IterativeResult, as_callable, check_finite, check_tol
 
+MAX_EVALUATIONS = 1_000_000
+
 
 # --- derivación -------------------------------------------------------
 
@@ -70,7 +72,17 @@ def simpson_adaptive(f, a, b, tol=1e-10, max_depth=50):
         right = simpson(fm, frm, fb, m, b_)
         delta = left + right - whole
         if depth <= 0:
-            raise ConvergenceError("Simpson adaptativo alcanzó la profundidad máxima (¿singularidad?)")
+            raise ConvergenceError(
+                "Simpson adaptativo alcanzó la profundidad máxima (¿singularidad?)",
+                hint="El integrando no es suave en algún punto (singularidad, discontinuidad "
+                     "o oscilación rápida). Partí el intervalo en ese punto o relajá tol.",
+            )
+        if evals[0] > MAX_EVALUATIONS:
+            raise ConvergenceError(
+                f"Simpson adaptativo superó {MAX_EVALUATIONS} evaluaciones",
+                hint="La tolerancia pedida es demasiado exigente para este integrando; "
+                     "relajá tol o probá gauss_legendre.",
+            )
         if abs(delta) <= 15 * tol_:
             return left + right + delta / 15, abs(delta) / 15
         lv, le = recurse(a_, m, fa, flm, fm, left, tol_ / 2, depth - 1)

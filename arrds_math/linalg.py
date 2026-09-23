@@ -104,7 +104,7 @@ def norm(x, ord=2):
         if ord == "fro":
             return math.sqrt(math.fsum(v * v for r in a for v in r))
         if ord == 2:
-            ev = eig_symmetric(matmul(transpose(a), a))["values"]
+            ev = eig_symmetric(matmul(transpose(a), a)).value["values"]
             return math.sqrt(max(max(ev), 0.0))
         raise InvalidInputError(f"Norma matricial no soportada: {ord!r}")
     v = as_vector(x, "x")
@@ -136,7 +136,11 @@ def lu(a):
     for k in range(n):
         p = max(range(k, n), key=lambda i: abs(u[i][k]))
         if abs(u[p][k]) <= n * EPS * scale_:
-            raise SingularMatrixError(f"Matriz singular (pivote nulo en la columna {k})")
+            raise SingularMatrixError(
+                f"Matriz singular (pivote nulo en la columna {k})",
+                hint="Alguna fila o columna es combinación lineal de otras: el sistema no "
+                     "tiene solución única. Revisá las ecuaciones o usá lstsq.",
+            )
         if p != k:
             u[k], u[p] = u[p], u[k]
             perm[k], perm[p] = perm[p], perm[k]
@@ -262,8 +266,13 @@ def lstsq(a, b):
 def eig_symmetric(a, tol=1e-14, max_sweeps=100):
     """Autovalores y autovectores de una matriz simétrica (método de Jacobi cíclico).
 
-    Devuelve valores en orden ascendente y los autovectores como columnas.
+    Devuelve ``IterativeResult`` cuyo ``value`` tiene los autovalores en orden
+    ascendente y los autovectores como columnas. El error estimado es la
+    norma de Frobenius de la parte fuera de la diagonal al terminar (cota
+    de Gershgorin/Wielandt–Hoffman para el error de los autovalores).
     """
+    from .numeric._common import IterativeResult
+
     a = as_matrix(a)
     n = _require_square(a, "eig_symmetric")
     scale_ = max(abs(v) for r in a for v in r) or 1.0
@@ -302,4 +311,4 @@ def eig_symmetric(a, tol=1e-14, max_sweeps=100):
     order = sorted(range(n), key=lambda i: a[i][i])
     values = [a[i][i] for i in order]
     vectors = [[v[r][i] for i in order] for r in range(n)]
-    return {"values": values, "vectors": vectors, "sweeps": sweep + 1}
+    return IterativeResult({"values": values, "vectors": vectors}, True, sweep + 1, math.sqrt(off), "jacobi")

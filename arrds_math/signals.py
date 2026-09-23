@@ -14,6 +14,9 @@ from .errors import InvalidInputError
 from .poly import _coeffs, polyval, roots
 
 
+MAX_DFT = 4096
+
+
 def _is_pow2(n):
     return n > 0 and n & (n - 1) == 0
 
@@ -45,6 +48,12 @@ def fft(x, inverse=False):
         raise InvalidInputError("La señal debe ser una lista no vacía")
     if len(x) > 1 << 16:
         raise InvalidInputError("Señal demasiado larga para la v0.1 (máx. 65536 muestras)")
+    if not _is_pow2(len(x)) and len(x) > MAX_DFT:
+        # La DFT directa es O(N²): se acota para no bloquear el motor.
+        raise InvalidInputError(
+            f"Con {len(x)} muestras (no potencia de 2) la DFT directa es O(N²); máx. {MAX_DFT}",
+            hint="Rellená con ceros hasta la siguiente potencia de 2 para usar la FFT.",
+        )
     data = [complex(v) for v in x]
     out = _fft(data, inverse) if _is_pow2(len(data)) else _dft(data, inverse)
     if inverse:
@@ -76,8 +85,8 @@ def transfer_function(num, den):
     num, den = _coeffs(num), _coeffs(den)
     if all(c == 0 for c in den):
         raise InvalidInputError("El denominador no puede ser nulo")
-    poles = roots(den) if len(den) > 1 else []
-    zeros = roots(num) if len(num) > 1 else []
+    poles = roots(den).value if len(den) > 1 else []
+    zeros = roots(num).value if len(num) > 1 else []
     d0 = polyval(den, 0)
     dc_gain = polyval(num, 0) / d0 if d0 != 0 else math.inf
     max_re = max((p.real for p in poles), default=-math.inf)
