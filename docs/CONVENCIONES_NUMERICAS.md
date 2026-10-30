@@ -5,7 +5,9 @@
 - `^` y `**` son potencia, **asociativa por la derecha**: `2^3^2 = 512`. `-2^2 = -4`.
 - Multiplicación implícita: `2x`, `2(x+1)`, `(a)(b)`, `3 sin(x)`, `x(x+1)`. `nombre(...)` es llamada solo
   si `nombre` está en el catálogo de funciones; si no, es producto.
-- `log(x)` = **logaritmo natural** (igual que `ln`); `log(x, b)` en base b; `log10`, `log2` explícitos.
+- `log(x)` = **logaritmo en base 10** (igual que `log10`); `ln(x)` = natural; `log(x, b)` en base b (b > 0 y
+  b ≠ 1, si no `DOMAIN_ERROR`); `log2` explícito. Decisión D6 de [lenguaje/ESPECIFICACION.md](lenguaje/ESPECIFICACION.md);
+  hasta el 2026-10-30 `log` era el natural.
 - Ángulos en **radianes**; `deg(x)` y `rad(x)` convierten.
 - `x!` = factorial; para no enteros usa Γ(x+1). Máximo 170! (límite de float64).
 - Constantes: `pi`, `e`, `tau`, `phi`, `inf`.

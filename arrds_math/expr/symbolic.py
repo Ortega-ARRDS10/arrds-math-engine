@@ -192,7 +192,8 @@ def _d_call(node, var):
         "atanh": lambda: div(ONE, sub(ONE, power(u, TWO))),
         "exp": lambda: call("exp", u),
         "ln": lambda: div(ONE, u),
-        "log": lambda: div(ONE, u),
+        # log es base 10 (decisión D6): (log₁₀ u)' = u'/(u·ln 10)
+        "log": lambda: div(ONE, mul(u, call("ln", Num(10.0)))),
         "log10": lambda: div(ONE, mul(u, call("ln", Num(10.0)))),
         "log2": lambda: div(ONE, mul(u, call("ln", TWO))),
         "sqrt": lambda: div(ONE, mul(TWO, call("sqrt", u))),
@@ -321,7 +322,10 @@ def _latex(node):
         if node.name == "log" and len(args) == 2:
             return rf"\log_{{{args[1]}}}\left({args[0]}\right)", 10
         if node.name == "log10":
-            return rf"\log_{{10}}\left({args[0]}\right)", 10
+            # Mismo significado que log (base 10, decisión D6): se ve igual.
+            return rf"\log\left({args[0]}\right)", 10
+        if node.name == "log2":
+            return rf"\log_{{2}}\left({args[0]}\right)", 10
         name = _LATEX_FUNCS.get(node.name, rf"\operatorname{{{node.name}}}")
         return rf"{name}\left({', '.join(args)}\right)", 10
     if isinstance(node, Unary):

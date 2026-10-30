@@ -49,8 +49,15 @@ def _sign(x):
 
 
 def _log(x, base=None):
+    """``log(x)`` es base 10 y ``log(x, b)`` base b (decisión D6 del lenguaje); ``ln`` es el natural."""
     if base is None:
-        return cmath.log(x)
+        return cmath.log10(x)
+    if base == 1 or (not isinstance(base, complex) and base <= 0):
+        raise DomainError(
+            f"La base del logaritmo debe ser positiva y distinta de 1 (recibió {base:g})",
+            hint="log_b(x) = ln(x)/ln(b): con b = 1 se divide por ln(1) = 0, y con b ≤ 0 el "
+                 "logaritmo real no existe.",
+        )
     return cmath.log(x) / cmath.log(base)
 
 

@@ -63,10 +63,17 @@ class TestEvaluador(unittest.TestCase):
         with self.assertRaises(DomainError):
             evaluate("171!")
 
-    def test_log_es_natural(self):
-        self.assertAlmostEqual(evaluate("log(e)"), 1.0)
+    def test_logaritmos(self):
+        # Decisión D6 del lenguaje: log = base 10, ln = natural, log(x, b) = base b.
+        self.assertAlmostEqual(evaluate("log(1000)"), 3.0)
+        self.assertAlmostEqual(evaluate("log(1000)"), evaluate("log10(1000)"))
+        self.assertAlmostEqual(evaluate("ln(e)"), 1.0)
         self.assertAlmostEqual(evaluate("log(8, 2)"), 3.0)
-        self.assertAlmostEqual(evaluate("log10(1000)"), 3.0)
+        self.assertAlmostEqual(evaluate("log(9, 1/3)"), -2.0)
+        self.assertAlmostEqual(evaluate("log2(8)"), 3.0)
+        for bad in ("log(5, 1)", "log(5, 0)", "log(5, -2)", "log(-10)"):
+            with self.subTest(expr=bad), self.assertRaises(DomainError):
+                evaluate(bad)
 
     def test_compile_function(self):
         f = compile_function("x^2 + y", ["x", "y"])
@@ -85,7 +92,7 @@ class TestSimbolico(unittest.TestCase):
 
     def test_derivadas_contra_diferencias(self):
         for expr in ("x^3 - 2x", "sin(x)*cos(x)", "exp(-x^2)", "ln(x)/x", "x^x", "atan(x)",
-                     "sqrt(1 + x^2)", "tanh(2x)", "2^x", "asin(x/2)", "log(x, 10)", "hypot(x, 2)"):
+                     "sqrt(1 + x^2)", "tanh(2x)", "2^x", "asin(x/2)", "log(x, 10)", "log(x)", "log2(x)", "hypot(x, 2)"):
             with self.subTest(expr=expr):
                 self.check_derivative(expr, 0.7)
 
@@ -99,6 +106,8 @@ class TestSimbolico(unittest.TestCase):
         self.assertEqual(to_latex("x^2/2"), r"\frac{{x}^{2}}{2}")
         self.assertEqual(to_latex("sqrt(alpha)"), r"\sqrt{\alpha}")
         self.assertEqual(to_latex("2x"), "2 x")
+        self.assertEqual(to_latex("log10(x)"), to_latex("log(x)"))
+        self.assertEqual(to_latex("log(x, 2)"), r"\log_{2}\left(x\right)")
 
 
 if __name__ == "__main__":
