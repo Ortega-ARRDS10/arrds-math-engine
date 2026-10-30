@@ -21,9 +21,12 @@ español. Contexto del producto: [docs/CONTEXTO.md](docs/CONTEXTO.md) (resumen) 
 3. **Todo iterativo reporta su error**: devuelve `IterativeResult` (`value, converged, iterations, error_estimate, method, extra`).
 4. **Errores tipados**: subclase de `MathEngineError` con `code` estable; añadir `hint` pedagógico cuando el usuario pueda corregir algo.
 5. **Nada sin caso de verificación**: función → registro en `api.py` → caso en `selftest.CASES` → test → doc ([docs/FLUJO_DE_TRABAJO.md](docs/FLUJO_DE_TRABAJO.md)).
-6. Convenciones numéricas (coeficientes descendentes, `log` = natural, modo real por defecto): [docs/CONVENCIONES_NUMERICAS.md](docs/CONVENCIONES_NUMERICAS.md).
+6. Convenciones numéricas (coeficientes descendentes, `log` = base 10 y `ln` = natural, modo real por defecto): [docs/CONVENCIONES_NUMERICAS.md](docs/CONVENCIONES_NUMERICAS.md).
 7. Código y comentarios en español; nombres de funciones en inglés (como NumPy/MATLAB). Comentar el *por qué*.
-8. No inventar contexto de Arrds Studio: lo que no está en `docs/contexto/` se marca como "propuesta".
+8. **Lenguaje LaTeX de la calculadora**: lo define Arrds paso a paso en [docs/lenguaje/](docs/lenguaje/README.md). Registrar cada explicación en `CATALOGO.md` *antes* de programar; lo propio se marca "propuesta".
+9. No inventar contexto de Arrds Studio: lo que no está en `docs/contexto/` se marca como "propuesta".
 
 ## Estado
-v0.1 completa; roadmap en [docs/TAREAS.md](docs/TAREAS.md). Rama de trabajo actual: `claude/admiring-pascal-56gpjq`.
+Plan: núcleo C++20 + Qt para una calculadora gráfica tipo GeoGebra; este motor Python pasa a ser referencia ([ADR 0002](docs/adr/0002-nucleo-cpp.md), propuesto hasta el spike).
+v0.1 completa; roadmap en [docs/TAREAS.md](docs/TAREAS.md). Rama de trabajo: `main`.
+Al empezar una sesión, leer el "Estado actual" de [docs/BITACORA.md](docs/BITACORA.md); al terminarla, añadir una entrada.

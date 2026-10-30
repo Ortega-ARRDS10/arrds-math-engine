@@ -42,7 +42,10 @@
 
 ## v0.3+ — integración con Arrds Studio
 
+- [x] Motor Python: `log(x)` pasa a base 10 (decisión D6 de [ESPECIFICACION.md](lenguaje/ESPECIFICACION.md)); actualizar evaluador, derivada simbólica, LaTeX, banco, tests y convenciones
+- [ ] Especificar el lenguaje LaTeX con Arrds ([docs/lenguaje/](lenguaje/README.md)), de lo simple al cálculo
+- [ ] Spike C++/Qt: parser LaTeX mínimo + evaluador por bytecode + curva con deslizador ([ADR 0002](adr/0002-nucleo-cpp.md))
 - [ ] Spike del puente **pybind11** con este contrato (según los documentos de contexto)
-- [ ] **(propuesta)** Port del núcleo a C++ validado contra el banco exportado (`--export`)
+- [ ] Núcleo C++20 validado contra el banco exportado (`--export`) ([ADR 0002](adr/0002-nucleo-cpp.md))
 - [ ] Rendimiento: perfiles, casos grandes, límites de tiempo por operación
 - [ ] **(propuesta)** HAL / capa de orquestación para el `MathAgent` del orquestador multi-agente

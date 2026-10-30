@@ -49,8 +49,8 @@ NumPy/SciPy fuera hasta que el rendimiento lo justifique.
 ## Relación con el frontend
 
 Según los documentos, el frontend es C++20/Qt 6 y se conecta al motor Python vía **pybind11**
-(con `QThreadPool` y manejo del GIL). La idea de portar el núcleo a C++ y validarlo con este banco es una
-**(propuesta)** (ver [TAREAS.md](TAREAS.md)); el contrato JSON sirve para ambos caminos.
+(con `QThreadPool` y manejo del GIL). El plan de llevar el núcleo a C++20 (para la calculadora gráfica
+interactiva) y validarlo con este banco está en el [ADR 0002](adr/0002-nucleo-cpp.md), propuesto hasta el spike.
 
 ## Identidad visual del panel
 
