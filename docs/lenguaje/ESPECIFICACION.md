@@ -163,8 +163,7 @@ con un atajo al tipear `|`.
   `log(x)` = base 10, igual que `\log{x}`. Cambia el contrato JSON: hay que actualizar el evaluador, la derivada
   simbólica, `to_latex`, los casos del banco, los tests y
   [CONVENCIONES_NUMERICAS.md](../CONVENCIONES_NUMERICAS.md). Tarea registrada en [TAREAS.md](../TAREAS.md).
-- **Multiplicación implícita (D15):** el parser ASCII del motor Python lee `1/2x` como (1/2)·x (la implícita
-  tiene la misma precedencia que `*`). En LaTeX Arrds es 1/(2x). Hay que decidir si el parser ASCII adopta la
-  misma regla, para que ambos produzcan el mismo AST.
+- **Multiplicación implícita (D15):** el parser ASCII del motor Python adoptó la regla (decisión de Arrds,
+  2026-10-30): `1/2x` = 1/(2x) en ambos lenguajes.
 - **Grados (D4):** la configuración cambia el resultado de un mismo texto (`\sin{30}`); por eso el indicador
   RAD/DEG es obligatorio. *(Propuesta)*: el AST guarda la unidad angular explícitamente.

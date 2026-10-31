@@ -112,9 +112,9 @@ Definido por Arrds el 2026-10-30. Los atajos de teclado y opciones mencionados e
 
 ### 1.8 Otras operaciones
 
-- **Estado:** admitidas por Arrds; la forma de escritura es *(propuesta)*.
+- **Estado:** definido (escritura confirmada por Arrds el 2026-10-30).
 
-  | Operación | Se escribe *(propuesta)* | Ejemplo |
+  | Operación | Se escribe | Ejemplo |
   |---|---|---|
   | Factorial | `n!` | `5!` = 120 |
   | Porcentaje | `15\%` | = 0.15 (ver D16) |

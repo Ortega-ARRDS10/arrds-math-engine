@@ -4,7 +4,8 @@ Gramática (de menor a mayor precedencia)::
 
     expr     := additive
     additive := term (("+" | "-") term)*
-    term     := unary (("*" | "/" | <implícita>) unary)*
+    term     := implicit (("*" | "/") implicit)*
+    implicit := unary (<implícita> power)*        # liga más fuerte que * y /
     unary    := ("+" | "-") unary | power
     power    := postfix ("^" unary)?          # asociativa por la derecha
     postfix  := primary "!"*
@@ -19,6 +20,8 @@ Notas de diseño:
   ``x(x+1)``. Solo se inserta cuando el siguiente token es un identificador
   o ``(``. ``nombre(...)`` es una llamada solo si ``nombre`` es una función
   del catálogo (``FUNCTIONS``); si no, se lee como producto.
+* La implícita forma un bloque: ``1/2x`` = 1/(2x), pero ``1/2*x`` = (1/2)·x
+  (decisión D15 de ``docs/lenguaje/ESPECIFICACION.md``).
 * Nunca se usa ``eval`` de Python: el parser es la única puerta de entrada.
 """
 
@@ -128,15 +131,19 @@ class _Parser:
         return node
 
     def term(self):
+        node = self.implicit()
+        while self.tok.kind == "op" and self.tok.text in ("*", "/"):
+            op = self.advance().text
+            node = Binary(op, node, self.implicit())
+        return node
+
+    def implicit(self):
+        # La multiplicación implícita liga más fuerte que * y / (decisión D15 del
+        # lenguaje): 1/2x = 1/(2x), igual que en LaTeX Arrds.
         node = self.unary()
-        while True:
-            if self.tok.kind == "op" and self.tok.text in ("*", "/"):
-                op = self.advance().text
-                node = Binary(op, node, self.unary())
-            elif self.tok.kind == "ident" or (self.tok.kind == "op" and self.tok.text == "("):
-                node = Binary("*", node, self.unary())
-            else:
-                return node
+        while self.tok.kind == "ident" or (self.tok.kind == "op" and self.tok.text == "("):
+            node = Binary("*", node, self.power())
+        return node
 
     def unary(self):
         if self.tok.kind == "op" and self.tok.text in ("+", "-"):

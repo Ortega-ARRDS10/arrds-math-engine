@@ -19,8 +19,8 @@ Reglas:
 | Rama | `main` (sin otras ramas en el remoto) |
 | Último commit | `1abc222` — ADR 0001 aceptado |
 | Operaciones en la API | 68 |
-| Casos del banco | 73/73 pasan |
-| Tests | 65, todos pasan (última corrida verificada: 2026-10-30) |
+| Casos del banco | 74/74 pasan |
+| Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
 | Dependencias | SymPy + mpmath ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)) |
 | Decisiones pendientes | licencia; qué parte de `docs/contexto/` es pública |
 | Decisiones propuestas | [ADR 0002](adr/0002-nucleo-cpp.md): núcleo C++20 + Qt (se valida con un spike) |
@@ -70,8 +70,9 @@ Reglas:
   y opciones de configuración.
 
 **Pendiente / próximo paso:**
-- [ ] Confirmar las formas de escritura propuestas en 1.8 (MCD, MCM, piso, techo, redondeo).
-- [ ] Decidir si el parser ASCII del motor adopta la regla D15 (ESPECIFICACION §9).
+- [x] Formas de escritura de 1.8 (MCD, MCM, piso, techo, redondeo) confirmadas por Arrds.
+- [x] El parser ASCII del motor adoptó D15 (`1/2x` = 1/(2x)): nuevo nivel `implicit` en la gramática,
+  test y caso de banco nuevos. Verificación: tests 66/66 · banco 74/74.
 - [ ] Nivel 2: álgebra.
 
 ---

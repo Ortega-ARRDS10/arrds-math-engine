@@ -5,6 +5,8 @@
 - `^` y `**` son potencia, **asociativa por la derecha**: `2^3^2 = 512`. `-2^2 = -4`.
 - Multiplicación implícita: `2x`, `2(x+1)`, `(a)(b)`, `3 sin(x)`, `x(x+1)`. `nombre(...)` es llamada solo
   si `nombre` está en el catálogo de funciones; si no, es producto.
+- La multiplicación implícita **liga más fuerte que `*` y `/`** (decisión D15 del lenguaje): `1/2x` = 1/(2x),
+  `6/2(1+2)` = 1; con `*` explícito, `1/2*x` = (1/2)·x. Hasta el 2026-10-30 tenía la misma precedencia que `*`.
 - `log(x)` = **logaritmo en base 10** (igual que `log10`); `ln(x)` = natural; `log(x, b)` en base b (b > 0 y
   b ≠ 1, si no `DOMAIN_ERROR`); `log2` explícito. Decisión D6 de [lenguaje/ESPECIFICACION.md](lenguaje/ESPECIFICACION.md);
   hasta el 2026-10-30 `log` era el natural.

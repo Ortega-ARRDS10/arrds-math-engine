@@ -23,6 +23,17 @@ class TestParser(unittest.TestCase):
         self.assertEqual(evaluate("(x)(x)", env), 9.0)
         self.assertAlmostEqual(evaluate("2 sin(x)", env), 2 * math.sin(3.0))
 
+    def test_implicita_liga_mas_fuerte_que_division(self):
+        # Decisión D15: la multiplicación implícita forma un bloque.
+        env = {"x": 4.0, "y": 2.0}
+        self.assertEqual(evaluate("1/2x", env), 1 / 8)
+        self.assertEqual(evaluate("1 / 2x", env), 1 / 8)
+        self.assertEqual(evaluate("2x/4y", env), 1.0)          # (2x)/(4y)
+        self.assertEqual(evaluate("1/2*x", env), 2.0)          # * explícito: (1/2)·x
+        self.assertEqual(evaluate("6/2(1+2)", env), 1.0)       # 6/(2·3)
+        self.assertEqual(evaluate("-2x", env), -8.0)
+        self.assertEqual(to_string(parse("1/2x")), "1 / (2 * x)")
+
     def test_errores_de_sintaxis(self):
         for bad in ("", "2*(x+", "3 +", "x $ 2", ")", "2 3"):
             with self.subTest(expr=bad), self.assertRaises(ParseError):
