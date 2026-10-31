@@ -24,7 +24,8 @@ Reglas:
 | Dependencias | SymPy + mpmath ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)) |
 | Decisiones pendientes | licencia; qué parte de `docs/contexto/` es pública |
 | Decisiones propuestas | [ADR 0002](adr/0002-nucleo-cpp.md): núcleo C++20 + Qt (se valida con un spike) |
-| Próximo paso | Arrds explica el lenguaje LaTeX nivel por nivel → [docs/lenguaje/CATALOGO.md](lenguaje/CATALOGO.md) |
+| Lenguaje LaTeX | nivel 1 (aritmética) definido; niveles 2–9 pendientes |
+| Próximo paso | Nivel 2 (álgebra) del [catálogo](lenguaje/CATALOGO.md) |
 
 ---
 
@@ -51,6 +52,27 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-10-30 — Nivel 1 del lenguaje: aritmética
+
+**Decisiones de Arrds** (fichas 1.1–1.9 en [lenguaje/CATALOGO.md](lenguaje/CATALOGO.md)):
+- Números con punto; notación científica solo en LaTeX (`6.02 \times 10^{23}`).
+- `--3` válido con advertencia que recomienda `-(-3)`.
+- Multiplicación: `\cdot` estándar; `*` lo convierte el editor en `\cdot`; `\times` = producto entre números
+  y producto vectorial entre vectores; `abc` = producto implícito sin signo visible.
+- División: `\frac{}{}`, `/` y `\div`; la multiplicación implícita liga más fuerte que `/` (D15): `1/2x` = 1/(2x).
+- `\sqrt{-4}` es error en los reales; `( )`, `[ ]` y `\left( \right)` equivalentes.
+- Porcentaje contextual por defecto (`200 + 10\%` = 220), configurable a 0.1 (D16).
+- Resultado exacto con el decimal al lado.
+- Nuevo documento [lenguaje/EDITOR_Y_CONFIGURACION.md](lenguaje/EDITOR_Y_CONFIGURACION.md): escritura rápida
+  y opciones de configuración.
+
+**Pendiente / próximo paso:**
+- [ ] Confirmar las formas de escritura propuestas en 1.8 (MCD, MCM, piso, techo, redondeo).
+- [ ] Decidir si el parser ASCII del motor adopta la regla D15 (ESPECIFICACION §9).
+- [ ] Nivel 2: álgebra.
 
 ---
 

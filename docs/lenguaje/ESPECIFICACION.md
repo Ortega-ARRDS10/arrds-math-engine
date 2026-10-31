@@ -145,6 +145,8 @@ al llegar a este nivel.
 | D10 | ~~En sucesiones (`a_{n+1}`), ¿el subíndice se calcula?~~ | **Resuelta por Arrds:** con `\text{}` nunca (etiqueta); sin `\text`, se calcula solo al definir sucesiones (nivel 8) |
 | D11 | ~~¿Un subíndice de varias letras exige `\text{}` (`x_{max}` → error)?~~ | **Resuelta por Arrds:** sí, error con sugerencia (aunque LaTeX lo renderice) |
 | D13 | ¿Qué significan los índices múltiples (`a_{i,j}`): elemento de matriz, sucesión doble…? | **Pendiente para el futuro** (Arrds, 2026-10-30). La escritura con coma ya está definida; `a_{ij}` es error por D11 |
+| D15 | ~~`1/2x`: ¿(1/2)·x o 1/(2x)?~~ | **Resuelta por Arrds:** 1/(2x). **La multiplicación implícita liga más fuerte que `/` y `\div`** (sin depender de espacios, que son invisibles en el render): `1/2x` = `1 / 2x` = 1/(2x); el render muestra 1/(2x) y una advertencia recomienda `{1}/{2x}`. El `\cdot` explícito no forma bloque: `1/2 \cdot x` = (1/2)·x |
+| D16 | ~~`200 + 10\%`: ¿220 o 200.1?~~ | **Resuelta por Arrds:** por defecto el porcentaje es **contextual** (`200 + 10\%` = 220); en la configuración puede pasar a ser siempre 0.1. Precisión (confirmada por Arrds): la regla contextual aplica solo cuando el porcentaje se suma o resta directamente (`a \pm p\%` = a·(1 ± p/100), con `a` = todo lo de la izquierda); en otro caso `p\%` = p/100 |
 | D12 | ~~¿`\text{}` fuera de subíndices?~~ | **Resuelta por Arrds:** `\text{}` es **notación, nunca cálculo**: nada de su interior es variable. Se usa para etiquetas (en subíndices) y para **unidades** (`3\,\text{m/s}`). Mecanismo (confirmado por Arrds): el significado depende de la posición: dentro de un subíndice → etiqueta; después de una cantidad → unidad, que se interpreta con el módulo de unidades (`m` = metro, no la variable m); en otra posición → error |
 | D14 | ~~¿`i` como índice o variable?~~ | **Resuelta por Arrds:** por ahora `i` se usa como índice o variable (`x_{i}`, `\sum_{i=1}^{n}`). Al llegar al campo complejo se separa el significado: ahí `i` es la unidad imaginaria y no se permite como variable |
 
@@ -161,5 +163,8 @@ con un atajo al tipear `|`.
   `log(x)` = base 10, igual que `\log{x}`. Cambia el contrato JSON: hay que actualizar el evaluador, la derivada
   simbólica, `to_latex`, los casos del banco, los tests y
   [CONVENCIONES_NUMERICAS.md](../CONVENCIONES_NUMERICAS.md). Tarea registrada en [TAREAS.md](../TAREAS.md).
+- **Multiplicación implícita (D15):** el parser ASCII del motor Python lee `1/2x` como (1/2)·x (la implícita
+  tiene la misma precedencia que `*`). En LaTeX Arrds es 1/(2x). Hay que decidir si el parser ASCII adopta la
+  misma regla, para que ambos produzcan el mismo AST.
 - **Grados (D4):** la configuración cambia el resultado de un mismo texto (`\sin{30}`); por eso el indicador
   RAD/DEG es obligatorio. *(Propuesta)*: el AST guarda la unidad angular explícitamente.

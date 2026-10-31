@@ -8,6 +8,7 @@ Es la fuente de verdad del parser LaTeX ([ADR 0002](../adr/0002-nucleo-cpp.md)).
 |---|---|
 | [ESPECIFICACION.md](ESPECIFICACION.md) | Reglas generales del subconjunto LaTeX: léxico, precedencia, ambigüedades y decisiones abiertas. |
 | [CATALOGO.md](CATALOGO.md) | Cada comando, función o propiedad, por nivel: cómo se escribe, cómo se ve, qué calcula. |
+| [EDITOR_Y_CONFIGURACION.md](EDITOR_Y_CONFIGURACION.md) | Atajos de escritura rápida y opciones de configuración de la calculadora. |
 
 ## Cómo trabajamos
 
