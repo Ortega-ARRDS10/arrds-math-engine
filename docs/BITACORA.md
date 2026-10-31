@@ -56,6 +56,18 @@ Reglas:
 
 ---
 
+## 2026-10-30 — Fuentes bibliográficas
+
+**Hecho:** [FUENTES.md](FUENTES.md) con la política de uso de los libros de Arrds (consultarlos y citarlos sí;
+subirlos o copiar su texto no, porque el repositorio es público), la bibliografía por nivel del catálogo y
+módulo del motor, y las licencias de los materiales de la UNLP por verificar.
+
+**Pendiente:**
+- [ ] Verificar las licencias de los libros de la UNLP y de los cuadernillos de Mat A–D.
+- [ ] OCR de Burden (10.ª ed.) y Hamming si se necesitan.
+
+---
+
 ## 2026-10-30 — Código abierto bajo MPL-2.0
 
 **Decisiones de Arrds:**

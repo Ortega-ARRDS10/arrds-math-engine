@@ -16,7 +16,8 @@ spec antes de código, TDD (rojo → verde → refactor) y ADR para cada decisi�
 ## Cómo añadir una operación
 
 1. **Especificación**: qué calcula, qué entradas acepta, casos límite, cómo se sabe que está bien
-   (valor de referencia analítico o tabulado y su tolerancia).
+   (valor de referencia analítico o tabulado y su tolerancia). Si sale de un libro, citarlo según
+   [FUENTES.md](FUENTES.md); nunca copiar enunciados textuales.
 2. **Caso de verificación primero** (rojo): añadilo en `arrds_math/selftest.py` → `CASES`, con
    `reference`. Incluí al menos un caso de error esperado.
 3. **Función** en el módulo que corresponda. Si es iterativa, devuelve `IterativeResult` con un
