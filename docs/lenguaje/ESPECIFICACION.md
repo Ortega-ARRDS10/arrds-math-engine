@@ -189,6 +189,8 @@ al llegar a este nivel.
 | D18 | ~~¿Ecuación con varias variables: ecuación o curva?~~ | **Resuelta por Arrds:** solo `x, y` → curva implícita; `x, y, z` → superficie de nivel; otras letras → ecuación. El usuario puede cambiar la etiqueta a mano |
 | D19 | ~~¿La ecuación se resuelve sola o con un comando?~~ | **Resuelta por Arrds:** sola por defecto (desactivable en la configuración) y con botón "resolver" |
 | D20 | ~~`(2, 3)`: ¿punto o intervalo abierto?~~ | **Resuelta por Arrds:** se distingue por la **etiqueta**: `(a, b)` es un punto por defecto, y el usuario puede etiquetarlo como intervalo. La escritura no cambia |
+| D21 | ~~Sistema con menos ecuaciones que incógnitas: ¿error?~~ | **Resuelta por Arrds:** no es error; se informa la clasificación del sistema (compatible determinado, compatible indeterminado con solución paramétrica, incompatible) (catálogo 2.5) |
+| D22 | ~~El decimal del resultado, ¿con `=` o con `≈`?~~ | **Resuelta por Arrds:** `≈` cuando es aproximado (√8 ≈ 2.83); `=` solo si es exacto (catálogo 2.7) |
 | D12 | ~~¿`\text{}` fuera de subíndices?~~ | **Resuelta por Arrds:** `\text{}` es **notación, nunca cálculo**: nada de su interior es variable. Se usa para etiquetas (en subíndices) y para **unidades** (`3\,\text{m/s}`). Mecanismo (confirmado por Arrds): el significado depende de la posición: dentro de un subíndice → etiqueta; después de una cantidad → unidad, que se interpreta con el módulo de unidades (`m` = metro, no la variable m); en otra posición → error |
 | D14 | ~~¿`i` como índice o variable?~~ | **Resuelta por Arrds:** por ahora `i` se usa como índice o variable (`x_{i}`, `\sum_{i=1}^{n}`). Al llegar al campo complejo se separa el significado: ahí `i` es la unidad imaginaria y no se permite como variable |
 

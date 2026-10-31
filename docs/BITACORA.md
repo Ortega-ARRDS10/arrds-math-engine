@@ -17,7 +17,7 @@ Reglas:
 |---|---|
 | Versión | v0.1 (implementación de referencia) |
 | Rama | `main` (sin otras ramas en el remoto) |
-| Último hito | modelo de documento (celdas, grupos, pestañas, ventanas) y ADR 0003–0004 (ver `git log` para el commit exacto) |
+| Último hito | nivel 2 (álgebra) del lenguaje y combinaciones de teclas (ver `git log` para el commit exacto) |
 | Operaciones en la API | 68 |
 | Casos del banco | 74/74 pasan |
 | Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
@@ -25,8 +25,8 @@ Reglas:
 | Licencia | MPL-2.0, código abierto ([ADR 0005](adr/0005-licencia-mpl.md)) |
 | Decisiones pendientes | qué parte de `docs/contexto/` es pública; MVP en una página |
 | Decisiones propuestas | ADR [0002](adr/0002-nucleo-cpp.md) (núcleo C++20 + Qt), [0003](adr/0003-render-propio.md) (render propio), [0004](adr/0004-extensiones.md) (extensiones) |
-| Lenguaje LaTeX | nivel 1 (aritmética) definido; nivel 2 iniciado (ecuaciones); niveles 3–9 pendientes |
-| Próximo paso | Resto del nivel 2 (álgebra) del [catálogo](lenguaje/CATALOGO.md) |
+| Lenguaje LaTeX | niveles 1 (aritmética) y 2 (álgebra) definidos; niveles 3–9 pendientes |
+| Próximo paso | Nivel 3 (funciones elementales) del [catálogo](lenguaje/CATALOGO.md) |
 
 ---
 
@@ -53,6 +53,27 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-10-31 — Nivel 2 del lenguaje (álgebra) y combinaciones de teclas
+
+**Decisiones de Arrds** (fichas 2.2–2.7 en [lenguaje/CATALOGO.md](lenguaje/CATALOGO.md)):
+- Expandir, factorizar, simplificar y cancelar **con botones**; los casos delicados se analizan en la práctica.
+- Simplificar marca el dominio: `\frac{x^{2}-1}{x-1}` → x + 1, x ∈ ℝ ∖ {1} (`\setminus` y `\{1\}`).
+- Inecuaciones: `2x + 1 > 5` se resuelve; `x > 2` se grafica con botón en 1D, 2D o 3D (nueva vista 1D);
+  restringir el dominio de una expresión va en las propiedades de su celda.
+- Sistemas con `\begin{cases}`: siempre se informa la clasificación (determinado, indeterminado con
+  solución paramétrica, incompatible), nunca error por la cantidad de ecuaciones (D21).
+- Conjuntos admitidos; escritura a detallar.
+- Al lado de la celda solo lo nuevo (`\sqrt{8}` → 2√2 ≈ 2.83; tras simplificar, `2\sqrt{2}` → ≈ 2.83); el
+  decimal aproximado lleva ≈ (D22).
+- Combinaciones de teclas (propuesta inicial, reasignables) en
+  [lenguaje/EDITOR_Y_CONFIGURACION.md](lenguaje/EDITOR_Y_CONFIGURACION.md).
+
+**Pendiente / próximo paso:**
+- [ ] Confirmar o corregir las combinaciones de teclas propuestas.
+- [ ] Nivel 3: funciones elementales.
 
 ---
 

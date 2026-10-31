@@ -29,7 +29,7 @@ ficha de abajo. Las reglas generales están en [ESPECIFICACION.md](ESPECIFICACIO
 | Nivel | Tema | Entradas |
 |---|---|---|
 | 1 | Aritmética | números, suma y resta, multiplicación, división, potencias y raíces, agrupación, orden de operaciones, otras operaciones, resultado |
-| 2 | Álgebra | ecuaciones |
+| 2 | Álgebra | ecuaciones, manipular expresiones, simplificación con dominio, inecuaciones, sistemas, conjuntos, radicales |
 | 3 | Funciones elementales | — |
 | 4 | Trigonometría | — |
 | 5 | Exponenciales y logaritmos | — |
@@ -180,6 +180,77 @@ Definido por Arrds el 2026-10-30. Los atajos de teclado y opciones mencionados e
 
 - **Pendiente:** cómo funcionan en la práctica los bloques, sus propiedades y las acciones (Arrds lo explica
   más adelante).
+
+### 2.2 Manipular expresiones
+
+- **Estado:** definido (2026-10-31)
+- **Acciones:** expandir, factorizar, simplificar y cancelar, **con botones** (no automático).
+- **Cuidado (Arrds):** hay que analizar en qué casos se puede aplicar cada acción; los detalles se definen en
+  la práctica. Principio *(propuesta, coherente con el motor)*: si una acción cambia el dominio, la calculadora
+  lo informa (ver 2.3).
+
+### 2.3 Simplificación con dominio
+
+- **Estado:** definido (2026-10-31)
+- **Ejemplo:**
+
+  | Celda | Botón "simplificar" | Se muestra |
+  |---|---|---|
+  | `\frac{x^{2}-1}{x-1}` | sí | x + 1, x ∈ ℝ ∖ {1} |
+
+- **Regla:** se simplifica **solo con el botón**, y se marca lo que queda fuera del dominio.
+- **Notación del dominio:** `x \in \mathbb{R} \setminus \{1\}`. Ojo: `\mathbb{R} - {1}` se vería "ℝ − 1",
+  porque las llaves sin barra son invisibles; el conjunto se escribe `\{1\}` y la diferencia con `\setminus`.
+
+### 2.4 Inecuaciones
+
+- **Estado:** definido (2026-10-31)
+- **Comportamiento:**
+
+  | Entrada | Etiqueta | Resultado |
+  |---|---|---|
+  | `2x + 1 > 5` | inecuación | se resuelve por defecto: x > 2 |
+  | `x > 2` | región (ya está despejada) | se grafica, **con botón**: semirrecta en 1D, semiplano en 2D, semiespacio en 3D |
+
+- **Restringir el dominio de otra expresión** (por ejemplo, graficar f solo para x > 2): se define en las
+  **propiedades de la celda** de esa expresión, no escribiendo la inecuación aparte.
+- **Vista 1D** (recta numérica): aparece como tipo de ventana gráfica, además de 2D y 3D.
+- **Forma de la solución** *(propuesta)*: `x > 2` y, como alternativa, el intervalo; la notación de intervalos
+  se define con los conjuntos (2.6).
+
+### 2.5 Sistemas de ecuaciones
+
+- **Estado:** definido (2026-10-31)
+- **Se escribe:** `\begin{cases} x + y = 3 \\ x - y = 1 \end{cases}` (cada ecuación separada por `\\`).
+- **Se resuelve** igual que una ecuación (D19): solo por defecto y con botón.
+- **Resultado (D21):** siempre se informa la clasificación del sistema, sin importar cuántas ecuaciones tenga:
+
+  | Clasificación | Se muestra |
+  |---|---|
+  | Compatible determinado | la solución única (x = 2, y = 1) |
+  | Compatible indeterminado | infinitas soluciones en forma paramétrica (x = 1 − t, y = 2t, z = t), que se pueden graficar (p. ej. la recta de intersección de dos planos) |
+  | Incompatible | "sin solución", con el motivo (p. ej. planos paralelos) |
+
+### 2.6 Conjuntos
+
+- **Estado:** admitidos (2026-10-31); la escritura se define al detallarlos.
+- **Previstos** *(propuesta)*: `\{1, 2, 3\}`, `\in`, `\notin`, `\cup`, `\cap`, `\setminus`, `\subset`,
+  `\emptyset`, `\mathbb{N}`, `\mathbb{Z}`, `\mathbb{Q}`, `\mathbb{R}`, `\mathbb{C}`, e intervalos (punto o
+  intervalo según la etiqueta, D20).
+
+### 2.7 Radicales y cómo se muestra el resultado simplificado
+
+- **Estado:** definido (2026-10-31)
+- **Regla (Arrds):** al lado de la celda se muestra **solo lo que aporta algo nuevo**.
+
+  | Celda | Se muestra al lado | Por qué |
+  |---|---|---|
+  | `\sqrt{8}` | 2√2 ≈ 2.83 | la forma simplificada es nueva |
+  | `2\sqrt{2}` (después de "simplificar") | ≈ 2.83 | la forma exacta ya está escrita: repetirla no aporta |
+
+- El botón "simplificar" **reemplaza** la expresión de la celda por la simplificada (`\sqrt{8}` → `2\sqrt{2}`).
+- **Aproximado (D22):** el decimal se muestra con **≈** cuando es aproximado (√8 = 2.8284… ≈ 2.83); con `=`
+  solo si es exacto (`2 + 3 = 5`).
 
 ## 3. Funciones elementales
 

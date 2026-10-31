@@ -51,7 +51,7 @@ grupo se quiere otro valor, se crea **una variable nueva**:
 | Alcance por defecto de una definición nueva | **independiente** (solo su grupo), para que los ejercicios no se pisen; "estándar" se elige en las propiedades |
 | `g` estándar que excluye al grupo 3 | el grupo 3 **puede** definir su propia `g`: para ese grupo, `g` no existe |
 | Grupos anidados | el grupo interior **ve** las definiciones del exterior, como los ámbitos en programación |
-| Ventanas gráficas | cada ventana elige qué grupos muestra y si es 2D o 3D; además tendrá funciones de software CAD (AutoCAD, Inventor) que GeoGebra no tiene (ver abajo) |
+| Ventanas gráficas | cada ventana elige qué grupos muestra y si es 1D (recta numérica, para inecuaciones), 2D o 3D; además tendrá funciones de software CAD (AutoCAD, Inventor) que GeoGebra no tiene (ver abajo) |
 | Archivo de una pestaña | **JSON** con el texto LaTeX de cada celda y sus propiedades: legible y versionable con git |
 
 ## Funciones de tipo CAD en las ventanas gráficas
