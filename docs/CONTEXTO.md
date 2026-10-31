@@ -46,6 +46,12 @@ decidió un esquema **híbrido** ([ADR 0001](adr/0001-implementacion-de-referenc
 (+mpmath) obligatorio para la Capa 1 simbólica, núcleo numérico propio como verificación cruzada, y
 NumPy/SciPy fuera hasta que el rendimiento lo justifique.
 
+## Modelo de distribución (cambio de rumbo, 2026-10-30)
+
+Los documentos de contexto plantean **pago único**. Arrds decidió que, por el momento, el proyecto es
+**código abierto bajo MPL-2.0** para recibir aportes, sin descartar cobrar en el futuro
+([ADR 0005](adr/0005-licencia-mpl.md)). Los documentos originales no se modificaron.
+
 ## Relación con el frontend
 
 Según los documentos, el frontend es C++20/Qt 6 y se conecta al motor Python vía **pybind11**

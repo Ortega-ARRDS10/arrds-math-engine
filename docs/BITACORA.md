@@ -22,7 +22,8 @@ Reglas:
 | Casos del banco | 74/74 pasan |
 | Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
 | Dependencias | SymPy + mpmath ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)) |
-| Decisiones pendientes | licencia; qué parte de `docs/contexto/` es pública |
+| Licencia | MPL-2.0, código abierto ([ADR 0005](adr/0005-licencia-mpl.md)) |
+| Decisiones pendientes | qué parte de `docs/contexto/` es pública; MVP en una página |
 | Decisiones propuestas | ADR [0002](adr/0002-nucleo-cpp.md) (núcleo C++20 + Qt), [0003](adr/0003-render-propio.md) (render propio), [0004](adr/0004-extensiones.md) (extensiones) |
 | Lenguaje LaTeX | nivel 1 (aritmética) definido; nivel 2 iniciado (ecuaciones); niveles 3–9 pendientes |
 | Próximo paso | Resto del nivel 2 (álgebra) del [catálogo](lenguaje/CATALOGO.md) |
@@ -52,6 +53,30 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-10-30 — Código abierto bajo MPL-2.0
+
+**Decisiones de Arrds:**
+- Por el momento el proyecto es **código abierto** en GitHub para que otros aporten; quizás se cobre en el
+  futuro. Licencia **MPL-2.0** ([ADR 0005](adr/0005-licencia-mpl.md)). Cambia el modelo de "pago único" de los
+  documentos de contexto (registrado en [CONTEXTO.md](CONTEXTO.md); los originales no se tocaron).
+
+**Hecho:**
+- `LICENSE` con el texto oficial de MPL-2.0 (descargado de mozilla.org, 373 líneas).
+- `CONTRIBUTING.md`: licencia de los aportes, reglas, entorno, pull requests y reportes.
+- Actualizados: `POLITICA_DE_USO.md`, README, `pyproject.toml`, ADR 0002 (motivo de la prohibición de GPL),
+  `CONTEXTO.md` y `TAREAS.md`.
+
+**Observaciones de Claude (registradas para no perderlas):**
+- El alcance crece más rápido que lo construido; conviene escribir el **MVP en una página** y hacer el spike
+  C++/Qt antes de sumar funciones. Los colaboradores llegan cuando hay algo que funciona.
+- Falta CI (GitHub Actions) para poder revisar aportes de terceros.
+
+**Pendiente / próximo paso:**
+- [ ] CI con GitHub Actions; código de conducta y plantillas de issues/PR.
+- [ ] Revisar si `docs/contexto/` debe ser público (incluye material personal y datos de sponsors).
 
 ---
 

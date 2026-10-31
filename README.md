@@ -80,5 +80,5 @@ la interfaz de Arrds Studio. Escucha solo en `127.0.0.1` y funciona sin conexió
 
 ## Licencia
 
-**Pendiente de decisión** (ver [POLITICA_DE_USO.md](docs/POLITICA_DE_USO.md#licencia)). Mientras no haya
-un archivo `LICENSE`, rige "todos los derechos reservados".
+Código abierto bajo la **Mozilla Public License 2.0** ([`LICENSE`](LICENSE), [ADR 0005](docs/adr/0005-licencia-mpl.md)).
+Los aportes son bienvenidos: ver [CONTRIBUTING.md](CONTRIBUTING.md).

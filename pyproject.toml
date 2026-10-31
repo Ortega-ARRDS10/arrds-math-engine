@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Motor matemático de Arrds Studio"
 readme = "README.md"
 requires-python = ">=3.11"
+license = {text = "MPL-2.0"}
 # ADR 0001: única dependencia permitida (trae mpmath). Cualquier otra requiere un ADR nuevo.
 dependencies = ["sympy>=1.13"]
 

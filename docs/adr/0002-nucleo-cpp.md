@@ -21,8 +21,8 @@ evaluación que C++, y llamarlo por punto a través de pybind11 suma costo y que
 1. **Todo en Python** detrás de pybind11. Lo más rápido de escribir; no alcanza los 60 FPS en gráficas densas.
 2. **Todo en C++**, incluido un CAS propio. Máximo rendimiento; reimplementar integración simbólica y límites
    no es razonable.
-3. **C++ con CAS GPL** (Giac, el que usa GeoGebra; o GiNaC). Muy completo, pero la GPL obliga a liberar
-   Arrds Studio entero: incompatible con el modelo de pago único.
+3. **C++ con CAS GPL** (Giac, el que usa GeoGebra; o GiNaC). Muy completo, pero la GPL obliga a distribuir
+   todo bajo GPL: incompatible con la licencia MPL-2.0 y con un posible producto pago futuro (ADR 0005).
 4. **Híbrido por camino de ejecución**: lo que corre por punto o por cuadro en C++; lo simbólico pesado en
    SymPy, fuera del camino caliente.
 
@@ -43,7 +43,8 @@ evaluación que C++, y llamarlo por punto a través de pybind11 suma costo y que
 - El motor Python actual queda como **implementación de referencia**: su contrato JSON y el banco
   (`python -m arrds_math.selftest --export`) validan automáticamente al núcleo C++.
 - El parser ASCII actual y el nuevo parser LaTeX producen **el mismo AST** (mismos nodos y semántica).
-- Licencias permitidas: BSD, MIT, Apache, BSL; LGPL solo con enlace dinámico. **GPL prohibida.**
+- Licencias permitidas: BSD, MIT, Apache, BSL; LGPL solo con enlace dinámico. **GPL prohibida** (con el
+  proyecto bajo MPL-2.0, incorporar GPL obligaría a distribuir todo bajo GPL; ver [ADR 0005](0005-licencia-mpl.md)).
   (SymEngine debe compilarse con `boostmp` en vez de GMP, o con GMP enlazado dinámicamente.)
 
 ## Spike de validación (antes de aceptar)

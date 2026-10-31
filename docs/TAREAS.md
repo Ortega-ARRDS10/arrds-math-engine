@@ -19,7 +19,9 @@
 - [x] Banco de verificación (70 casos, exportable a JSON)
 - [x] Tests `unittest` por módulo, contrato y servidor
 - [x] Panel de pruebas local (catálogo, editor JSON, gráficas SVG, banco, integridad, `Ctrl+K`)
-- [ ] **Decidir la licencia** (ver [POLITICA_DE_USO.md](POLITICA_DE_USO.md#licencia))
+- [x] Licencia: MPL-2.0 ([ADR 0005](adr/0005-licencia-mpl.md))
+- [x] `CONTRIBUTING.md`
+- [ ] Código de conducta y plantillas de issues/PR en GitHub
 - [x] Política de dependencias: híbrido con SymPy obligatorio ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md))
 - [ ] CI en GitHub Actions que corra tests + banco en cada push (el roadmap de los documentos pone CI primero)
 

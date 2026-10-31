@@ -35,17 +35,15 @@ de seguridad, aeronáuticos, médicos) verificá siempre con un método independ
 
 ## Licencia
 
-**Decisión pendiente de Arrds: tiene que tomarse antes de publicar o aceptar contribuciones.** Sin archivo
-`LICENSE` el código queda con todos los derechos reservados, aunque el repositorio sea público.
+El proyecto es **código abierto bajo la Mozilla Public License 2.0** (MPL-2.0); el texto completo está en
+[`LICENSE`](../LICENSE) y la decisión, en el [ADR 0005](adr/0005-licencia-mpl.md).
 
-Propuesta: **MPL-2.0**.
+En pocas palabras (resumen informativo; lo que vale es el texto de la licencia):
 
-| Opción | A favor | En contra |
-|---|---|---|
-| **MPL-2.0** (propuesta) | Las mejoras a los archivos del motor vuelven a ser abiertas, pero Arrds Studio (pago único) puede incluirlo sin abrir su propio código. | Menos conocida; exige publicar los archivos del motor modificados. |
-| Apache-2.0 | Muy adoptada, con concesión de patentes, compatible con uso comercial. | Un tercero puede cerrar una versión mejorada del motor. |
-| MIT | Máxima simplicidad. | Igual que Apache, sin cláusula de patentes. |
-| AGPL-3.0 | Máxima reciprocidad. | Complica incluirlo en un producto de pago único cerrado. |
+- Podés usar, copiar, modificar y distribuir el código, también en proyectos comerciales.
+- Si distribuís archivos de este proyecto **modificados**, tenés que publicar esos archivos bajo MPL-2.0.
+- Podés combinarlo con código propio bajo otra licencia, incluso cerrado, en un producto mayor.
+- Se ofrece "tal cual", sin garantía.
 
 Los documentos de [contexto/](contexto/) también incluyen material personal (guías de aprendizaje,
 análisis de herramientas, datos de sponsors): revisá si querés que sean públicos antes de publicar el
