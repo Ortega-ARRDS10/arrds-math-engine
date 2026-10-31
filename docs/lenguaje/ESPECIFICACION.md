@@ -99,19 +99,57 @@ error deben decirlo así.
 **Multiplicación implícita** (sin cambios): `2x`, `2\pi r`, `xy`, `2(x+1)`, `(a)(b)` son productos. `f(x)` es
 aplicación si `f` está **definida como función**; si no, producto f·(x).
 
-## 5. Tipos de entrada (lo que el usuario escribe en una línea)
+## 5. Objetos y etiquetas (definido por Arrds, 2026-10-30)
 
-| Forma | Interpretación propuesta |
-|---|---|
-| `2 + 3 \cdot 4` | expresión: se evalúa |
-| `a = 3` | definición de variable o parámetro (deslizador) |
-| `f(x) = x^{2}` | definición de función |
-| `y = 2x + 1` | curva explícita en 2D |
-| `x^{2} + y^{2} = 1` | curva implícita en 2D |
-| `z = x^{2} + y^{2}` | superficie en 3D |
-| `y > x^{2}` | región (inecuación) |
+**Regla:** cada línea que escribe el usuario es un **objeto** con una **etiqueta** (su tipo), asignada según
+sus características y propiedades. La etiqueta determina qué **acciones** ofrece la calculadora sobre ese
+objeto, y los objetos pueden **interactuar con otras expresiones** (Arrds).
 
-El comportamiento exacto de cada tipo (qué se dibuja, cómo se nombran los objetos) lo define Arrds.
+**Bloques y propiedades** (concepto de Arrds; el funcionamiento práctico lo explica más adelante):
+
+- Un **bloque** es una **celda** de la lista de expresiones, como en GeoGebra y Desmos (Arrds, 2026-10-30):
+  un panel lateral con celdas numeradas, cada una con su expresión, y el gráfico al costado. El significado
+  de una misma escritura depende del contexto: si está dentro de un bloque junto a otras expresiones o fuera
+  de él.
+- Las celdas se organizan en **grupos de celdas** (Arrds, 2026-10-30). "En el mismo bloque" significa **en el
+  mismo grupo**: las expresiones de un grupo interactúan entre sí (`x = 3` sustituye en `f(x,y)` del mismo
+  grupo); fuera del grupo, `x = 3` es una recta o un plano. A diferencia de las carpetas de Desmos, que solo
+  ordenan visualmente, el grupo es un **ámbito**: limita dónde vale una definición.
+- Alcance de las definiciones (independiente o estándar), excepciones, regla de no interferencia, grupos
+  anidados, pestañas y ventanas gráficas: ver [CELDAS_Y_DOCUMENTOS.md](CELDAS_Y_DOCUMENTOS.md).
+- Cada bloque tiene **propiedades**, donde el usuario puede cambiar la etiqueta y asignar acciones.
+
+**Interpretación de `x = 3` según el contexto** (D17, definido por Arrds):
+
+| Contexto | Ejemplo | Resultado |
+|---|---|---|
+| En el mismo bloque que una función de x | `f(x,y) = x^{2} + y^{2}` y `x = 3` | sustituye: f(3, y) = 3² + y² |
+| Fuera de un bloque, vista 2D | `x = 3` | recta vertical x = 3 |
+| Fuera de un bloque, vista 3D | `x = 3` | plano x = 3 (depende del plano de trabajo, p. ej. xy o xz) |
+| En una ecuación | `2x + 3 = 8` | `x` es una variable común (incógnita); al lado aparece la solución `x = 2.5`, y el usuario tiene la **opción de ubicarla en un plano de ejes cartesianos** (Arrds) |
+
+Así, `x`, `y`, `z` suelen ser variables de los ejes, pero no están reservadas: el contexto decide.
+
+Etiquetas nombradas por Arrds: **función, ecuación, definición, punto, vector, matriz, plano, superficie,
+superficie de nivel** (la lista crece con los niveles).
+
+**Punto** (etiqueta agregada por Arrds; escritura *(propuesta)*): `(2, 3)` en 2D, `(1, 2, 3)` en 3D, con nombre
+`A = (2, 3)` (mayúscula, como en geometría). Usa la coma como separador de coordenadas (D5). `(a, b)` es
+punto por defecto; si es un intervalo abierto, se le cambia la etiqueta (D20).
+
+| Forma | Etiqueta | Comportamiento |
+|---|---|---|
+| `a = 3` | definición | asigna el valor a la variable; se puede **fijar** el valor o convertirlo en **deslizador** (Arrds) |
+| `y = 2x + 1` | función (curva) | se grafica (Arrds) |
+| `2x + 3 = 7` | ecuación | se resuelve, en automático o con un comando; la ecuación se mantiene y **al lado** se muestra el resultado `x = 2` (Arrds) |
+| `2 + 3 \cdot 4` | expresión | se evalúa *(propuesta)* |
+| `f(x) = x^{2}` | función | definición con nombre *(propuesta)* |
+| `x^{2} + y^{2} = 1` | curva implícita (D18) | se grafica |
+| `x^{2} + y^{2} + z^{2} = 1` | superficie de nivel (D18) | se grafica en 3D |
+| `z = x^{2} + y^{2}` | superficie *(propuesta)* | se grafica en 3D |
+| `y > x^{2}` | región *(propuesta)* | se define en el nivel 2 (inecuaciones) |
+
+Las acciones concretas de cada etiqueta se registran en el [catálogo](CATALOGO.md) al llegar a su nivel.
 
 ## 6. Constantes y nombres reservados
 
@@ -147,6 +185,10 @@ al llegar a este nivel.
 | D13 | ¿Qué significan los índices múltiples (`a_{i,j}`): elemento de matriz, sucesión doble…? | **Pendiente para el futuro** (Arrds, 2026-10-30). La escritura con coma ya está definida; `a_{ij}` es error por D11 |
 | D15 | ~~`1/2x`: ¿(1/2)·x o 1/(2x)?~~ | **Resuelta por Arrds:** 1/(2x). **La multiplicación implícita liga más fuerte que `/` y `\div`** (sin depender de espacios, que son invisibles en el render): `1/2x` = `1 / 2x` = 1/(2x); el render muestra 1/(2x) y una advertencia recomienda `{1}/{2x}`. El `\cdot` explícito no forma bloque: `1/2 \cdot x` = (1/2)·x |
 | D16 | ~~`200 + 10\%`: ¿220 o 200.1?~~ | **Resuelta por Arrds:** por defecto el porcentaje es **contextual** (`200 + 10\%` = 220); en la configuración puede pasar a ser siempre 0.1. Precisión (confirmada por Arrds): la regla contextual aplica solo cuando el porcentaje se suma o resta directamente (`a \pm p\%` = a·(1 ± p/100), con `a` = todo lo de la izquierda); en otro caso `p\%` = p/100 |
+| D17 | ~~`x = 3`: ¿definición o recta vertical?~~ | **Resuelta por Arrds:** depende del contexto (bloque, vista 2D/3D, ecuación); ver §5. Falta la explicación práctica de bloques y propiedades |
+| D18 | ~~¿Ecuación con varias variables: ecuación o curva?~~ | **Resuelta por Arrds:** solo `x, y` → curva implícita; `x, y, z` → superficie de nivel; otras letras → ecuación. El usuario puede cambiar la etiqueta a mano |
+| D19 | ~~¿La ecuación se resuelve sola o con un comando?~~ | **Resuelta por Arrds:** sola por defecto (desactivable en la configuración) y con botón "resolver" |
+| D20 | ~~`(2, 3)`: ¿punto o intervalo abierto?~~ | **Resuelta por Arrds:** se distingue por la **etiqueta**: `(a, b)` es un punto por defecto, y el usuario puede etiquetarlo como intervalo. La escritura no cambia |
 | D12 | ~~¿`\text{}` fuera de subíndices?~~ | **Resuelta por Arrds:** `\text{}` es **notación, nunca cálculo**: nada de su interior es variable. Se usa para etiquetas (en subíndices) y para **unidades** (`3\,\text{m/s}`). Mecanismo (confirmado por Arrds): el significado depende de la posición: dentro de un subíndice → etiqueta; después de una cantidad → unidad, que se interpreta con el módulo de unidades (`m` = metro, no la variable m); en otra posición → error |
 | D14 | ~~¿`i` como índice o variable?~~ | **Resuelta por Arrds:** por ahora `i` se usa como índice o variable (`x_{i}`, `\sum_{i=1}^{n}`). Al llegar al campo complejo se separa el significado: ahí `i` es la unidad imaginaria y no se permite como variable |
 

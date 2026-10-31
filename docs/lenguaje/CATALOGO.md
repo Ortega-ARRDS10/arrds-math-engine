@@ -29,7 +29,7 @@ ficha de abajo. Las reglas generales están en [ESPECIFICACION.md](ESPECIFICACIO
 | Nivel | Tema | Entradas |
 |---|---|---|
 | 1 | Aritmética | números, suma y resta, multiplicación, división, potencias y raíces, agrupación, orden de operaciones, otras operaciones, resultado |
-| 2 | Álgebra | — |
+| 2 | Álgebra | ecuaciones |
 | 3 | Funciones elementales | — |
 | 4 | Trigonometría | — |
 | 5 | Exponenciales y logaritmos | — |
@@ -153,7 +153,33 @@ Definido por Arrds el 2026-10-30. Los atajos de teclado y opciones mencionados e
 
 ## 2. Álgebra
 
-*(sin entradas todavía)*
+### 2.1 Ecuaciones
+
+- **Estado:** definido (2026-10-30)
+- **Etiqueta:** ecuación (ver [ESPECIFICACION §5](ESPECIFICACION.md#5-objetos-y-etiquetas-definido-por-arrds-2026-10-30))
+- **Se escribe:** `2x + 3 = 7`
+- **Se renderiza:** la ecuación tal cual y, **al lado**, el resultado: 2x + 3 = 7 → x = 2
+- **Comportamiento:** la calculadora la resuelve **sola por defecto** (desactivable en la configuración) y
+  también con un **botón "resolver"** (D19); la ecuación escrita se mantiene, no se reemplaza por el resultado.
+- **Variables:** en una ecuación, `x` es una variable común (incógnita) (D17).
+- **Solución en el plano:** junto a la solución (`x = 2.5`) el usuario tiene la **opción de ubicarla en un
+  plano de ejes cartesianos** (Arrds). *Pendiente:* cómo se dibuja (¿punto (2.5, 0) sobre el eje x o recta
+  vertical x = 2.5?) y si la solución queda disponible como valor para otras expresiones.
+- **Interacción:** según sus características y propiedades, la ecuación tiene acciones y puede interactuar
+  con otras expresiones; el usuario las configura en las propiedades del bloque *(detalle pendiente)*.
+- **Distinción con otros objetos (Arrds):**
+
+  | Entrada | Etiqueta |
+  |---|---|
+  | `a = 3` | definición (valor fijo o deslizador) |
+  | `y = 2x + 1` | función / curva |
+  | `2x + 3 = 7` | ecuación |
+
+  | `x^{2} + y^{2} = 1` | curva implícita (D18) |
+  | `x^{2} + y^{2} + z^{2} = 1` | superficie de nivel (D18) |
+
+- **Pendiente:** cómo funcionan en la práctica los bloques, sus propiedades y las acciones (Arrds lo explica
+  más adelante).
 
 ## 3. Funciones elementales
 

@@ -45,6 +45,8 @@
 - [x] Motor Python: `log(x)` pasa a base 10 (decisión D6 de [ESPECIFICACION.md](lenguaje/ESPECIFICACION.md)); actualizar evaluador, derivada simbólica, LaTeX, banco, tests y convenciones
 - [ ] Especificar el lenguaje LaTeX con Arrds ([docs/lenguaje/](lenguaje/README.md)), de lo simple al cálculo
 - [ ] Spike C++/Qt: parser LaTeX mínimo + evaluador por bytecode + curva con deslizador ([ADR 0002](adr/0002-nucleo-cpp.md))
+- [ ] Render matemático propio desde el AST, después de MicroTeX ([ADR 0003](adr/0003-render-propio.md))
+- [ ] Extensiones declarativas (nivel 1); con código más adelante ([ADR 0004](adr/0004-extensiones.md))
 - [ ] Spike del puente **pybind11** con este contrato (según los documentos de contexto)
 - [ ] Núcleo C++20 validado contra el banco exportado (`--export`) ([ADR 0002](adr/0002-nucleo-cpp.md))
 - [ ] Rendimiento: perfiles, casos grandes, límites de tiempo por operación

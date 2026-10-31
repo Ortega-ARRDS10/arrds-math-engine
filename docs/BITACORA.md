@@ -17,15 +17,15 @@ Reglas:
 |---|---|
 | Versión | v0.1 (implementación de referencia) |
 | Rama | `main` (sin otras ramas en el remoto) |
-| Último commit | `1abc222` — ADR 0001 aceptado |
+| Último hito | modelo de documento (celdas, grupos, pestañas, ventanas) y ADR 0003–0004 (ver `git log` para el commit exacto) |
 | Operaciones en la API | 68 |
 | Casos del banco | 74/74 pasan |
 | Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
 | Dependencias | SymPy + mpmath ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)) |
 | Decisiones pendientes | licencia; qué parte de `docs/contexto/` es pública |
-| Decisiones propuestas | [ADR 0002](adr/0002-nucleo-cpp.md): núcleo C++20 + Qt (se valida con un spike) |
-| Lenguaje LaTeX | nivel 1 (aritmética) definido; niveles 2–9 pendientes |
-| Próximo paso | Nivel 2 (álgebra) del [catálogo](lenguaje/CATALOGO.md) |
+| Decisiones propuestas | ADR [0002](adr/0002-nucleo-cpp.md) (núcleo C++20 + Qt), [0003](adr/0003-render-propio.md) (render propio), [0004](adr/0004-extensiones.md) (extensiones) |
+| Lenguaje LaTeX | nivel 1 (aritmética) definido; nivel 2 iniciado (ecuaciones); niveles 3–9 pendientes |
+| Próximo paso | Resto del nivel 2 (álgebra) del [catálogo](lenguaje/CATALOGO.md) |
 
 ---
 
@@ -52,6 +52,31 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-10-30 — Objetos, celdas y grupos; render propio y extensiones
+
+**Decisiones de Arrds:**
+- Cada expresión es un **objeto con etiqueta** (función, ecuación, definición, punto, vector, matriz, plano,
+  superficie, superficie de nivel); la etiqueta define sus acciones y cómo interactúa con otras expresiones
+  ([ESPECIFICACION §5](lenguaje/ESPECIFICACION.md)).
+- Ecuaciones: se resuelven solas por defecto (desactivable) y con botón; la solución aparece al lado y se
+  puede ubicar en el plano (D19, ficha 2.1).
+- `x = 3` depende del contexto: sustitución dentro del grupo, recta o plano afuera, incógnita en una ecuación
+  (D17). Curva implícita o superficie de nivel según las variables (D18). `(a, b)` es punto por defecto;
+  intervalo cambiando la etiqueta (D20).
+- **Modelo de documento** ([CELDAS_Y_DOCUMENTOS.md](lenguaje/CELDAS_Y_DOCUMENTOS.md)): celdas (bloques) como en
+  Desmos/GeoGebra; **grupos de celdas como ámbitos** (alcance independiente por defecto, estándar
+  opcional, excepciones, sin redefinir nombres, anidables); pestañas = archivos JSON; varias ventanas
+  gráficas con funciones de CAD: vistas sincronizadas, snap, restricciones, SCU, cortes.
+- Propuestos: render propio desde el AST, en dos fases ([ADR 0003](adr/0003-render-propio.md)); extensiones
+  declarativas primero y con código después ([ADR 0004](adr/0004-extensiones.md)).
+
+**Pendiente / próximo paso:**
+- [ ] Resto del nivel 2: manipular expresiones, simplificación, inecuaciones, sistemas, conjuntos, radicales.
+- [ ] Ficha de "punto" (escritura propuesta en ESPECIFICACION §5) y cómo se dibuja la solución de una ecuación.
+- [ ] Restricciones geométricas: necesitarán un solver (cuidado con licencias GPL) → ADR y spike.
 
 ---
 

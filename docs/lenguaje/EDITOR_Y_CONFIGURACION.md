@@ -22,5 +22,6 @@ La calculadora tiene dos apartados pedidos por Arrds (2026-10-30):
 | Unidad angular | radianes / grados (indicador RAD/DEG siempre visible) | radianes | D4 |
 | Paréntesis automáticos `\left( \right)` | sí / no | *(por definir)* | Arrds, nivel 1.6 |
 | Porcentaje | contextual (`200 + 10\%` = 220) / siempre decimal (`10\%` = 0.1) | contextual | Arrds, D16 |
+| Resolver ecuaciones automáticamente | sí / no (si no, con el botón "resolver") | sí | Arrds, D19 |
 | Decimales del resultado | número | *(por definir)* | nivel 1.9 *(propuesta)* |
 | Umbral de notación científica | exponente | *(por definir)* | nivel 1.1 *(propuesta)* |
