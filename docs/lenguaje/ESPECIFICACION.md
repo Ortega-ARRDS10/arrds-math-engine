@@ -75,9 +75,11 @@ sugerencia. Ejemplo de Arrds: `a \sin x` no es válido; se escribe `a \sin{x}`.
 | `a_{i,j}` | **índices múltiples**: la escritura con coma está definida (es la que sugiere el error de `x_{max}`); su significado (p. ej. elemento de una matriz) queda **pendiente (D13)** |
 
 **Todo subíndice crea una variable distinta** (definido por Arrds): `x`, `x_{1}`, `x_{n}` y `x_{\text{max}}` son
-cuatro variables independientes; definir `x = 3` no le da valor a `x_{\text{max}}`.
+cuatro variables independientes; `x = 3` no le da valor a `x_{\text{max}}`.
 | `x_max` | **error**: en LaTeX el subíndice tomaría solo la "m" (se vería x_m·ax) |
-| `\sin^{2}{x}` | (sen x)² *(propuesta)*; `\sin^{-1}{x}` = arcsen x *(propuesta)* |
+| `\sin^{2}{x}` | (sen x)²: exponente positivo pegado a la función = potencia del valor |
+| `\sin^{-1}{x}` | arcsen x, igual que `\arcsin{x}`: exponente -1 pegado a la función = inversa (Arrds, catálogo 3.4) |
+| `(\sin{x})^{-1}` | 1/sen x: recíproco |
 | `\log_{2}{x}`, `\sqrt[3]{x}` | logaritmo en base 2, raíz cúbica *(propuesta)* |
 
 **Escritura estricta, render con paréntesis** (definido por Arrds, 2026-10-30): las llaves son la única
@@ -112,20 +114,24 @@ objeto, y los objetos pueden **interactuar con otras expresiones** (Arrds).
   de una misma escritura depende del contexto: si está dentro de un bloque junto a otras expresiones o fuera
   de él.
 - Las celdas se organizan en **grupos de celdas** (Arrds, 2026-10-30). "En el mismo bloque" significa **en el
-  mismo grupo**: las expresiones de un grupo interactúan entre sí (`x = 3` sustituye en `f(x,y)` del mismo
-  grupo); fuera del grupo, `x = 3` es una recta o un plano. A diferencia de las carpetas de Desmos, que solo
-  ordenan visualmente, el grupo es un **ámbito**: limita dónde vale una definición.
+  mismo grupo**: las expresiones de un grupo pueden interactuar entre sí. A diferencia de las carpetas de Desmos,
+  que solo ordenan visualmente, el grupo es un **ámbito**: limita dónde vale una definición.
 - Alcance de las definiciones (independiente o estándar), excepciones, regla de no interferencia, grupos
   anidados, pestañas y ventanas gráficas: ver [CELDAS_Y_DOCUMENTOS.md](CELDAS_Y_DOCUMENTOS.md).
 - Cada bloque tiene **propiedades**, donde el usuario puede cambiar la etiqueta y asignar acciones.
 
-**Interpretación de `x = 3` según el contexto** (D17, definido por Arrds):
+**Interpretación de `x = 3`** (D17 y D27, definido por Arrds): siempre es una **recta o un plano**, nunca asigna un
+valor a `x`. Interactúa con otras expresiones solo si el usuario lo pide con un **botón**.
 
 | Contexto | Ejemplo | Resultado |
 |---|---|---|
-| En el mismo bloque que una función de x | `f(x,y) = x^{2} + y^{2}` y `x = 3` | sustituye: f(3, y) = 3² + y² |
-| Fuera de un bloque, vista 2D | `x = 3` | recta vertical x = 3 |
-| Fuera de un bloque, vista 3D | `x = 3` | plano x = 3 (depende del plano de trabajo, p. ej. xy o xz) |
+| Vista 2D | `x = 3` | recta vertical x = 3 |
+| Vista 3D | `x = 3` | plano x = 3 (depende del plano de trabajo, p. ej. xy o xz) |
+| Botón de interacción con `f(x) = x^{2}` | `x = 3` | intersección: el punto (3, 9) |
+| Botón de interacción con `f(x,y) = x^{2} + y^{2}` | `x = 3` | intersección: la curva f(3, y) = 3² + y² |
+| Varias a la vez | `x = 4`, `x = e` en el mismo grupo | válido: son rectas o planos distintos y pueden interactuar con una o varias funciones. No viola la regla de no interferencia, porque no son definiciones |
+| Para evaluar | `x_{\text{max}} = 3` y `f(x_{\text{max}})` | usar otra variable: da el valor al lado (D24) |
+| Otra letra usada como eje | `t = x^{2}` y `t = 3` en el grupo | `t = 3` es una recta horizontal que puede interactuar con otras expresiones; una letra que es eje no se puede definir. Si `t` no es eje de nada, `t = 3` es una definición (D28) |
 | En una ecuación | `2x + 3 = 8` | `x` es una variable común (incógnita); al lado aparece la solución `x = 2.5`, y el usuario tiene la **opción de ubicarla en un plano de ejes cartesianos** (Arrds) |
 
 Así, `x`, `y`, `z` suelen ser variables de los ejes, pero no están reservadas: el contexto decide.
@@ -143,13 +149,51 @@ punto por defecto; si es un intervalo abierto, se le cambia la etiqueta (D20).
 | `y = 2x + 1` | función (curva) | se grafica (Arrds) |
 | `2x + 3 = 7` | ecuación | se resuelve, en automático o con un comando; la ecuación se mantiene y **al lado** se muestra el resultado `x = 2` (Arrds) |
 | `2 + 3 \cdot 4` | expresión | se evalúa *(propuesta)* |
-| `f(x) = x^{2}` | función | definición con nombre *(propuesta)* |
+| `f(x) = x^{2}` | función | definición con nombre; puede generar una gráfica (Arrds, §5.1) |
 | `x^{2} + y^{2} = 1` | curva implícita (D18) | se grafica |
 | `x^{2} + y^{2} + z^{2} = 1` | superficie de nivel (D18) | se grafica en 3D |
 | `z = x^{2} + y^{2}` | superficie *(propuesta)* | se grafica en 3D |
 | `y > x^{2}` | región *(propuesta)* | se define en el nivel 2 (inecuaciones) |
 
 Las acciones concretas de cada etiqueta se registran en el [catálogo](CATALOGO.md) al llegar a su nivel.
+
+### 5.1 Resolución de nombres: función o producto
+
+Pregunta de Arrds (2026-11-01): ¿cómo entiende el motor que `f(x)` es una función y no f·(x)? Mecanismo
+*(propuesta)*: cada grupo tiene una **tabla de nombres**, y el análisis se hace en dos pasos.
+
+1. **Definición, por la forma:** `nombre(v1, v2, ...) = expresión`, con variables simples y distintas entre los
+   paréntesis, define una función y la anota en la tabla.
+2. **Uso, por la tabla:** `f(...)` es aplicación si `f` figura como función; si no, es producto.
+
+| Escritura | Tabla | Lectura |
+|---|---|---|
+| `f(2)` | `f` es función | aplicación |
+| `a(x+1)` | `a` es variable o no está | producto a·(x + 1) |
+| `a(x+1) = 5` | argumento no simple | ecuación, no define nada |
+| `f(x) = x^{2}` con `f = 3` en el grupo | `f` ya es variable | error: nombre en uso |
+
+`f` debe existir en el grupo para usarla. Su celda no necesita estar más arriba, aunque es lo recomendado; las
+dependencias circulares son error (D23).
+
+**Paréntesis en funciones del usuario:** `f(x)` lleva paréntesis, no llaves. No contradice la regla de §4: `\sin` es
+un comando de LaTeX, mientras que `f{x}` se vería "fx", igual que un producto.
+
+### 5.2 Variables libres y ejes
+
+Regla (confirmada por Arrds, 2026-11-01): se cuentan las **variables libres**, es decir, las letras que no están
+definidas en el grupo. Así, `a = b + 1` se grafica en ejes a-b si ninguna está definida, y es una definición de
+`a` si `b` lo está.
+
+| Entrada | Libres | Etiqueta | Ejes |
+|---|---|---|---|
+| `2x + 3 = 7` | 1 | ecuación | se resuelve |
+| `y = x^{2}` | 2 | ecuación y función (Arrds) | x horizontal, y vertical |
+| `t = x^{2}` | 2 | ecuación y función (Arrds) | x horizontal, t vertical |
+| `f(x) = x^{2}` | 1 + valor | función | misma gráfica que `y = x^{2}` (Arrds) |
+| `f(x, y) = x^{2} + y^{2}` | 2 + valor | función | superficie, x-y-z |
+
+Un objeto puede tener **más de una etiqueta**: `y = x^{2}` es ecuación y función a la vez (Arrds).
 
 ## 6. Constantes y nombres reservados
 
@@ -185,8 +229,15 @@ al llegar a este nivel.
 | D13 | ¿Qué significan los índices múltiples (`a_{i,j}`): elemento de matriz, sucesión doble…? | **Pendiente para el futuro** (Arrds, 2026-10-30). La escritura con coma ya está definida; `a_{ij}` es error por D11 |
 | D15 | ~~`1/2x`: ¿(1/2)·x o 1/(2x)?~~ | **Resuelta por Arrds:** 1/(2x). **La multiplicación implícita liga más fuerte que `/` y `\div`** (sin depender de espacios, que son invisibles en el render): `1/2x` = `1 / 2x` = 1/(2x); el render muestra 1/(2x) y una advertencia recomienda `{1}/{2x}`. El `\cdot` explícito no forma bloque: `1/2 \cdot x` = (1/2)·x |
 | D16 | ~~`200 + 10\%`: ¿220 o 200.1?~~ | **Resuelta por Arrds:** por defecto el porcentaje es **contextual** (`200 + 10\%` = 220); en la configuración puede pasar a ser siempre 0.1. Precisión (confirmada por Arrds): la regla contextual aplica solo cuando el porcentaje se suma o resta directamente (`a \pm p\%` = a·(1 ± p/100), con `a` = todo lo de la izquierda); en otro caso `p\%` = p/100 |
-| D17 | ~~`x = 3`: ¿definición o recta vertical?~~ | **Resuelta por Arrds:** depende del contexto (bloque, vista 2D/3D, ecuación); ver §5. Falta la explicación práctica de bloques y propiedades |
-| D18 | ~~¿Ecuación con varias variables: ecuación o curva?~~ | **Resuelta por Arrds:** solo `x, y` → curva implícita; `x, y, z` → superficie de nivel; otras letras → ecuación. El usuario puede cambiar la etiqueta a mano |
+| D17 | ~~`x = 3`: ¿definición o recta vertical?~~ | **Resuelta por Arrds, corregida por D27:** siempre recta o plano según la vista 2D/3D; en una ecuación, `x` es una incógnita (§5) |
+| D18 | ~~¿Ecuación con varias variables: ecuación o curva?~~ | **Resuelta por Arrds:** solo `x, y` → curva implícita; `x, y, z` → superficie de nivel; el usuario puede cambiar la etiqueta a mano. **Corregida el 2026-11-01:** "otras letras → ecuación" ya no vale, porque `t = x^{2}` se grafica en ejes x-t (§5.2) |
+| D23 | ~~"Definir antes": ¿la celda de `f` debe estar más arriba que su uso?~~ | **Resuelta por Arrds:** basta con que exista en el grupo, porque mover una celda no debe romper el documento; tenerla más arriba es lo **recomendado**. Las dependencias circulares son error |
+| D24 | ~~Con `x = 3` en el grupo, ¿cuánto da `f(2)`?~~ | **Resuelta por Arrds:** `f(2)`, `f(5)` o `f(x_{\text{max}})` con `x_{\text{max}} = 3` dan el valor al lado. `x = 3` no asigna: genera su gráfica, que se puede intersecar con la de f |
+| D25 | ~~`g(x, y, z)`: ¿cómo se grafica?~~ | **Resuelta por Arrds:** no se grafica directo: superficies de nivel g = c, con c como deslizador; además, **mapa de calor sobre planos de corte móviles** (idea de Arrds). *(Propuesta)*: también sobre superficies de nivel, con escala visible y mapas perceptualmente uniformes (viridis) |
+| D26 | ~~¿Dominio e imagen se muestran solos o con botón?~~ | **Resuelta por Arrds:** dominio solo; imagen con botón "analizar", porque calcularla puede fallar en funciones complicadas |
+| D27 | ~~¿`f(3, y)` sale de sustituir o de intersecar?~~ | **Resuelta por Arrds:** de intersecar, **con un botón**. `x = 3` es siempre recta o plano; pueden convivir varias (`x = 4`, `x = e`) e interactuar con una o varias funciones |
+| D28 | ~~`t = 3` en un grupo donde `t = x^{2}` usa `t` como eje: ¿recta o definición?~~ | **Resuelta por Arrds:** recta horizontal, que puede interactuar con otras expresiones. Si `t` no es eje de nada, `t = 3` es una definición |
+| D29 | ~~`\sin^{-2}{x}` y `f^{2}(x)`: ¿qué significan?~~ | **Resuelta por Arrds:** error con sugerencia y con el **motivo** en el mensaje (mensajes en el catálogo 3.4) |
 | D19 | ~~¿La ecuación se resuelve sola o con un comando?~~ | **Resuelta por Arrds:** sola por defecto (desactivable en la configuración) y con botón "resolver" |
 | D20 | ~~`(2, 3)`: ¿punto o intervalo abierto?~~ | **Resuelta por Arrds:** se distingue por la **etiqueta**: `(a, b)` es un punto por defecto, y el usuario puede etiquetarlo como intervalo. La escritura no cambia |
 | D21 | ~~Sistema con menos ecuaciones que incógnitas: ¿error?~~ | **Resuelta por Arrds:** no es error; se informa la clasificación del sistema (compatible determinado, compatible indeterminado con solución paramétrica, incompatible) (catálogo 2.5) |

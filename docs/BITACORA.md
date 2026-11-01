@@ -17,7 +17,7 @@ Reglas:
 |---|---|
 | Versión | v0.1 (implementación de referencia) |
 | Rama | `main` (sin otras ramas en el remoto) |
-| Último hito | nivel 2 (álgebra) del lenguaje y combinaciones de teclas (ver `git log` para el commit exacto) |
+| Último hito | nivel 3 (funciones elementales) del lenguaje (ver `git log` para el commit exacto) |
 | Operaciones en la API | 68 |
 | Casos del banco | 74/74 pasan |
 | Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
@@ -25,8 +25,8 @@ Reglas:
 | Licencia | MPL-2.0, código abierto ([ADR 0005](adr/0005-licencia-mpl.md)) |
 | Decisiones pendientes | qué parte de `docs/contexto/` es pública; MVP en una página |
 | Decisiones propuestas | ADR [0002](adr/0002-nucleo-cpp.md) (núcleo C++20 + Qt), [0003](adr/0003-render-propio.md) (render propio), [0004](adr/0004-extensiones.md) (extensiones) |
-| Lenguaje LaTeX | niveles 1 (aritmética) y 2 (álgebra) definidos; niveles 3–9 pendientes |
-| Próximo paso | Nivel 3 (funciones elementales) del [catálogo](lenguaje/CATALOGO.md) |
+| Lenguaje LaTeX | niveles 1 (aritmética), 2 (álgebra) y 3 (funciones elementales) definidos; niveles 4–9 pendientes |
+| Próximo paso | Nivel 4 (trigonometría) del [catálogo](lenguaje/CATALOGO.md) |
 
 ---
 
@@ -53,6 +53,27 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-11-01 — Nivel 3 del lenguaje: funciones elementales
+
+**Decisiones de Arrds** (fichas 3.1–3.7 en [lenguaje/CATALOGO.md](lenguaje/CATALOGO.md)):
+- `f(x) = x^{2}` es una función; `f(x)` se distingue del producto con una tabla de nombres por grupo
+  (mecanismo propuesto por Claude, [ESPECIFICACION §5.1](lenguaje/ESPECIFICACION.md)). `f` debe existir en el grupo;
+  se recomienda más arriba; las dependencias circulares son error (D23).
+- Variables libres y ejes (§5.2): `y = x^{2}` y `t = x^{2}` son ecuación y función a la vez; se grafican en ejes x-y y x-t.
+- `f(2)` y `f(x_{\text{max}})` dan el valor al lado (D24). `x = 3` es siempre recta o plano; interactúa con botón y
+  da intersecciones; pueden convivir varias (D27, corrige D17). `t = 3` con `t` como eje es una recta (D28).
+- `g(x, y, z)`: superficies de nivel y mapa de calor sobre planos de corte móviles (D25).
+- Dominio se muestra solo y es editable; imagen con el botón "analizar", que además marca raíces, extremos,
+  asíntotas y paridad (D26).
+- Composición `f(g(x))` y `(f \circ g)(x)`; inversa `f^{-1}(x)`, `\sin^{-1}{x}`, `\arcsin{x}`; `\sin^{-2}{x}` y `f^{2}(x)`
+  dan error con el motivo (D29); funciones a trozos con `\begin{cases}`; deslizadores ofrecidos con botón.
+- Combinaciones de teclas confirmadas y editables en la configuración.
+
+**Pendiente / próximo paso:**
+- [ ] Nivel 4: trigonometría.
 
 ---
 

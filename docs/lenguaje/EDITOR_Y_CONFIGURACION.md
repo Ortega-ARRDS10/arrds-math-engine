@@ -17,9 +17,9 @@ La calculadora tiene dos apartados pedidos por Arrds (2026-10-30):
 
 ## Combinaciones de teclas
 
-Funcionalidad pedida por Arrds (2026-10-31). Todas las combinaciones de esta tabla son *(propuesta)* hasta que
-Arrds las confirme, y el usuario podrá **reasignarlas** en la configuración (con aviso si dos acciones usan
-la misma combinación).
+Funcionalidad pedida por Arrds (2026-10-31). Las combinaciones de estas tablas son las **por defecto**,
+confirmadas por Arrds; el usuario puede **editarlas** en la configuración (con aviso si dos acciones usan la
+misma combinación).
 
 **Escritura** (el cursor queda dentro de las llaves):
 

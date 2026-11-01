@@ -30,7 +30,7 @@ ficha de abajo. Las reglas generales están en [ESPECIFICACION.md](ESPECIFICACIO
 |---|---|---|
 | 1 | Aritmética | números, suma y resta, multiplicación, división, potencias y raíces, agrupación, orden de operaciones, otras operaciones, resultado |
 | 2 | Álgebra | ecuaciones, manipular expresiones, simplificación con dominio, inecuaciones, sistemas, conjuntos, radicales |
-| 3 | Funciones elementales | — |
+| 3 | Funciones elementales | definir y evaluar, dominio e imagen, composición, inversa, a trozos, análisis, deslizadores |
 | 4 | Trigonometría | — |
 | 5 | Exponenciales y logaritmos | — |
 | 6 | Geometría 2D | — |
@@ -254,7 +254,93 @@ Definido por Arrds el 2026-10-30. Los atajos de teclado y opciones mencionados e
 
 ## 3. Funciones elementales
 
-*(sin entradas todavía)*
+### 3.1 Definir y evaluar
+
+- **Estado:** definido (2026-11-01); el mecanismo interno es *(propuesta)*, ver
+  [ESPECIFICACION §5.1 y §5.2](ESPECIFICACION.md#51-resolución-de-nombres-función-o-producto)
+- **Se escribe:** `f(x) = x^{2}`, `g(x, y) = x + y`. Son funciones y tienen la propiedad de generar una gráfica.
+- **Definir para usar:** `f` y `g` deben existir en el grupo, para que no choquen con reglas ya establecidas como
+  el producto implícito. Su celda puede estar en cualquier lugar, aunque se recomienda más arriba; las
+  dependencias circulares son error (D23).
+- **Evaluar (D24):** con `f(x) = x^{2}` en el mismo grupo de celdas, el valor aparece al lado:
+
+  | Entrada | Se muestra |
+  |---|---|
+  | `f(2)` | 4; un **botón** genera el punto en la gráfica |
+  | `f(5)` | 25 |
+  | `x_{\text{max}} = 3` y `f(x_{\text{max}})` | 9 |
+
+- **`x = 3` en el grupo (D24, D27):** no asigna un valor a x: es una recta o un plano. Con un **botón** interactúa
+  con una o varias funciones, y da su intersección: el punto (3, 9) o la curva f(3, y). Pueden convivir varias
+  en el mismo grupo (`x = 4`, `x = e`).
+- **Gráficas equivalentes:**
+
+  | Entrada | Etiquetas | Ejes |
+  |---|---|---|
+  | `y = x^{2}` | ecuación y función, automáticamente | x, y |
+  | `f(x) = x^{2}` | función | x, y (misma gráfica) |
+  | `t = x^{2}` | ecuación y función | x, t |
+
+- **Varias variables:** `f(x, y)` y `g(x, y, z)` usan los ejes cartesianos x, y, z.
+- **Cuatro dimensiones (D25):** `g(x, y, z)` no se grafica directo: se dibujan superficies de nivel g = c, con c
+  como deslizador, y un **mapa de calor sobre planos de corte móviles** (idea de Arrds). *(Propuesta)*: también
+  sobre las superficies de nivel, con escala visible.
+
+### 3.2 Dominio e imagen
+
+- **Estado:** definido (2026-11-01)
+- **Dominio:** se muestra **solo**. Ejemplo: `\sqrt{x-1}` muestra Dom: x ≥ 1.
+- **Imagen:** con el botón **"analizar"**, porque calcularla puede fallar en funciones complicadas (D26).
+- **Editable:** el usuario puede agregar más restricciones al dominio.
+
+### 3.3 Composición
+
+- **Estado:** definido (2026-11-01)
+- **Se escribe:** `f(g(x))` y también `(f \circ g)(x)`, la notación de los libros; significan lo mismo.
+
+### 3.4 Función inversa
+
+- **Estado:** definido (2026-11-01)
+- **Se escribe:** `f^{-1}(x)`, `\sin^{-1}{x}` y `\arcsin{x}` (Arrds). Regla: el exponente pegado al nombre de la
+  función decide: -1 es inversa; positivo, potencia del valor.
+
+  | Entrada | Significado |
+  |---|---|
+  | `f^{-1}(x)` | inversa de f |
+  | `\sin^{-1}{x}`, `\arcsin{x}` | arcoseno |
+  | `\sin^{2}{x}` | (sen x)² |
+  | `(\sin{x})^{-1}`, `\frac{1}{\sin{x}}` | 1/sen x |
+  | `(f(x))^{-1}` | 1/f(x) |
+
+- **Errores (D29):** dan sugerencia **y explican el motivo**. Texto de los mensajes *(propuesta)*:
+
+  | Entrada | Mensaje |
+  |---|---|
+  | `\sin^{-2}{x}` | "Pegado a la función, -1 significa inversa, y -2 no tiene un significado estándar. Si querés la potencia, escribí `(\sin{x})^{-2}`." |
+  | `f^{2}(x)` | "Es ambiguo: según el libro significa (f(x))² o f(f(x)). Escribí `(f(x))^{2}` o `f(f(x))`." |
+
+- **Sin inversa (Arrds):** si f no es inyectiva, `f^{-1}(x)` avisa y sugiere restringir el dominio. Mensaje
+  *(propuesta)* para `f(x) = x^{2}`: "f no tiene inversa en todo su dominio porque no es inyectiva: f(-2) = f(2) = 4.
+  Restringí el dominio en las propiedades de la celda, por ejemplo a x ≥ 0."
+
+### 3.5 Funciones a trozos
+
+- **Estado:** definido (2026-11-01)
+- **Se escribe:** `f(x) = \begin{cases} x^{2} & x < 0 \\ 2x & x \ge 0 \end{cases}`
+- **Distinción con los sistemas:** las filas con `&` y una condición son una función a trozos; las filas con
+  ecuaciones `=` son un sistema (2.5).
+
+### 3.6 Análisis de la función
+
+- **Estado:** definido (2026-11-01)
+- **Botón "analizar":** marca raíces, extremos, asíntotas y paridad. También calcula la imagen (D26).
+
+### 3.7 Deslizadores para letras sin definir
+
+- **Estado:** definido (2026-11-01)
+- **Comportamiento:** en `y = a(x - h)^{2} + k`, la calculadora **ofrece** crear con un botón los deslizadores de las
+  letras sin definir (a, h, k); no los crea sola. Al crearlos, esas letras pasan a estar definidas y queda una
+  curva en ejes x-y (regla de variables libres).
 
 ## 4. Trigonometría
 
