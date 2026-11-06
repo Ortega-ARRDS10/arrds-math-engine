@@ -48,5 +48,4 @@ Un cambio está listo cuando se cumplen **todas**:
 - [ ] `git status` limpio de archivos generados.
 - [ ] Mensajes de commit claros.
 - [ ] Docs actualizados (README si cambia el uso; ARQUITECTURA si cambia el contrato).
-- [ ] Entrada nueva en [BITACORA.md](BITACORA.md) y su tabla "Estado actual" al día.
 - [ ] Si cambió el contrato JSON: indicarlo en el commit, porque rompe a otras implementaciones.

@@ -2,16 +2,12 @@
 
 - **Estado:** propuesto
 - **Fecha:** 2026-10-30
-- **Relacionado:** [especificación LaTeX](../lenguaje/ESPECIFICACION.md), [ADR 0003](0003-render-propio.md),
-  [documentos de contexto](../contexto/03-arquitectura-y-componentes.md) (marketplace de extensiones,
-  sistema de plugins de micro-kernel)
+- **Relacionado:** [especificación LaTeX](../lenguaje/ESPECIFICACION.md), [ADR 0003](0003-render-propio.md)
 
 ## Contexto
 
-Arrds quiere que los usuarios puedan agregar modificaciones a la calculadora mediante extensiones. Los
-documentos de contexto ya prevén un marketplace de extensiones (catálogo `registry.json`, distribución por
-Cloudflare R2 / GitHub Releases) y un sistema de plugins de micro-kernel, listado entre los bloqueadores
-críticos.
+Arrds quiere que los usuarios puedan agregar modificaciones a la calculadora mediante extensiones:
+funciones y constantes nuevas al principio, y más adelante métodos o tipos de gráfico con código propio.
 
 Riesgos que hay que controlar:
 
@@ -42,9 +38,8 @@ combina lo que el lenguaje ya sabe hacer:
 | Estilos del render | colores, tamaños, fuente |
 | Casos de verificación | toda función nueva trae sus ejemplos con resultado esperado |
 
-**Nivel 2 — con código (después, ligado al marketplace).** Métodos numéricos, tipos de gráfico,
-importadores. Requisitos antes de habilitarlo: sandbox, permisos explícitos que el usuario aprueba, firma de
-las extensiones y revisión en el marketplace.
+**Nivel 2 — con código (después).** Métodos numéricos, tipos de gráfico, importadores. Requisitos antes
+de habilitarlo: sandbox, permisos explícitos que el usuario aprueba y firma de las extensiones.
 
 **Reglas comunes:**
 
@@ -57,5 +52,5 @@ las extensiones y revisión en el marketplace.
 ## Consecuencias
 
 - El nivel 1 sale "gratis" del registro de operaciones y del parser; puede llegar temprano.
-- El nivel 2 depende de decisiones de seguridad y del marketplace; queda para una versión posterior.
+- El nivel 2 depende de decisiones de seguridad (sandbox, firma); queda para una versión posterior.
 - El catálogo del lenguaje necesita versionado (para que las extensiones declaren compatibilidad).

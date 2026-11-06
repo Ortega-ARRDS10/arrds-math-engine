@@ -1,8 +1,9 @@
 # arrds-math-engine
 
-Motor matemático de **Arrds Studio**: la estación de trabajo matemática y de ingeniería para estudiantes
-y profesionales (visión completa en [docs/contexto/](docs/contexto/README.md)). Es la primera entrega
-pública del ecosistema Arrds.
+Motor matemático de referencia: parser y evaluador propios, cálculo simbólico verificado numéricamente,
+métodos numéricos con error estimado, álgebra lineal, polinomios, estadística, análisis vectorial,
+señales y unidades. Es una herramienta independiente, pensada como base para una futura calculadora
+gráfica interactiva.
 
 Esta versión (**v0.1**) es la **implementación de referencia**: Python 3.11+, sin `eval`. El núcleo
 numérico usa solo la biblioteca estándar; desde la v0.2 la parte simbólica usa **SymPy** (+mpmath),
@@ -64,17 +65,15 @@ python -m arrds_math.server
 
 Abre <http://127.0.0.1:8765>: catálogo de operaciones, editor JSON con ejemplos, gráficas, banco de
 pruebas con indicador de integridad y barra de comandos (`Ctrl+K`). Es un banco de pruebas local, **no**
-la interfaz de Arrds Studio. Escucha solo en `127.0.0.1` y funciona sin conexión.
+la interfaz final de la calculadora. Escucha solo en `127.0.0.1` y funciona sin conexión.
 
 ## Documentación
 
-- [docs/CONTEXTO.md](docs/CONTEXTO.md) — el motor dentro de Arrds Studio.
 - [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) — módulos, flujo y contrato JSON.
 - [docs/CONVENCIONES_NUMERICAS.md](docs/CONVENCIONES_NUMERICAS.md) — tolerancias, convenciones, unidades.
 - [docs/FLUJO_DE_TRABAJO.md](docs/FLUJO_DE_TRABAJO.md) — ramas, cómo añadir una operación, definición de "listo".
 - [docs/TAREAS.md](docs/TAREAS.md) — roadmap.
 - [docs/FUENTES.md](docs/FUENTES.md) — bibliografía de referencia y política de uso de los libros.
-- [docs/BITACORA.md](docs/BITACORA.md) — historial de avance y decisiones por sesión.
 - [docs/POLITICA_DE_USO.md](docs/POLITICA_DE_USO.md) — alcance, responsabilidad, privacidad, licencia.
 - [docs/lenguaje/](docs/lenguaje/README.md) — lenguaje LaTeX de la calculadora: especificación y catálogo.
 - [docs/adr/](docs/adr/) — decisiones de arquitectura.

@@ -1,8 +1,8 @@
 # CLAUDE.md — arrds-math-engine
 
-Motor matemático de Arrds Studio, implementación de referencia en Python. Autor: Arrds (UNLP), trabaja en
-español. Contexto del producto: [docs/CONTEXTO.md](docs/CONTEXTO.md) (resumen) y
-[docs/contexto/](docs/contexto/README.md) (documentos originales, fuente de verdad).
+Motor matemático y futura calculadora gráfica interactiva, implementación de referencia en Python.
+Autor: Arrds (UNLP), trabaja en español. Es una herramienta independiente: no forma parte de ningún
+producto ni ecosistema mayor.
 
 ## Comandos
 - Instalar: `pip install -e .` (dependencia: sympy)
@@ -24,9 +24,8 @@ español. Contexto del producto: [docs/CONTEXTO.md](docs/CONTEXTO.md) (resumen) 
 6. Convenciones numéricas (coeficientes descendentes, `log` = base 10 y `ln` = natural, modo real por defecto): [docs/CONVENCIONES_NUMERICAS.md](docs/CONVENCIONES_NUMERICAS.md).
 7. Código y comentarios en español; nombres de funciones en inglés (como NumPy/MATLAB). Comentar el *por qué*.
 8. **Lenguaje LaTeX de la calculadora**: lo define Arrds paso a paso en [docs/lenguaje/](docs/lenguaje/README.md). Registrar cada explicación en `CATALOGO.md` *antes* de programar; lo propio se marca "propuesta".
-9. No inventar contexto de Arrds Studio: lo que no está en `docs/contexto/` se marca como "propuesta".
+9. No inventar contexto del producto: lo que Arrds no haya confirmado se marca como "propuesta".
 
 ## Estado
 Plan: núcleo C++20 + Qt para una calculadora gráfica tipo GeoGebra; este motor Python pasa a ser referencia ([ADR 0002](docs/adr/0002-nucleo-cpp.md), propuesto hasta el spike).
 v0.1 completa; roadmap en [docs/TAREAS.md](docs/TAREAS.md). Rama de trabajo: `main`.
-Al empezar una sesión, leer el "Estado actual" de [docs/BITACORA.md](docs/BITACORA.md); al terminarla, añadir una entrada.

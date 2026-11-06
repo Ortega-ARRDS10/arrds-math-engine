@@ -5,23 +5,19 @@
 
 ## Contexto
 
-Los documentos de contexto fijan como stack del motor **SymPy, SciPy, mpmath y NumPy**, con una cascada de
-fallback SymPy → SciPy → mpmath → explicación pedagógica
-([01](../contexto/01-vision-general.md), [03](../contexto/03-arquitectura-y-componentes.md)).
-
 La v0.1 se escribió con **solo la biblioteca estándar**: implementación de referencia auditable, algoritmos
 legibles y un contrato JSON que no depende de tipos de NumPy.
 
 El siguiente objetivo, Matemática A y B (cálculo), exige límites, primitivas, series y resolución simbólica
 de ecuaciones. La integración simbólica en serio (algoritmo de Risch y heurísticas) no es razonable de
 reimplementar, y SymPy además ofrece los pasos de integración (`manualintegrate`), que encajan con la
-explicación paso a paso del producto.
+explicación paso a paso que busca el motor.
 
 ## Opciones
 
 1. **Solo stdlib.** Máximo control; sin primitivas simbólicas reales y con meses de trabajo para límites y series.
-2. **Stack completo de los documentos** (SymPy + SciPy + mpmath + NumPy). Más potencia numérica; NumPy/SciPy
-   son binarios pesados de empaquetar y hoy el núcleo numérico propio cubre A, B, C y D.
+2. **Stack completo** (SymPy + SciPy + mpmath + NumPy). Más potencia numérica; NumPy/SciPy son binarios
+   pesados de empaquetar y hoy el núcleo numérico propio cubre A, B, C y D.
 3. **Híbrido.** SymPy (+ mpmath) para la Capa 1 simbólica; el núcleo numérico en stdlib queda como motor
    numérico y como **verificación cruzada** de lo simbólico.
 
@@ -47,6 +43,6 @@ explicación paso a paso del producto.
 - Todo sigue detrás del mismo contrato JSON y del mismo banco de verificación.
 - Instalación: `pip install -e .` (o `pip install sympy`). El motor ya no es "cero dependencias".
 - Empaquetado: SymPy y mpmath son Python puro (~30 MB); compatibles con Nuitka sin compilar extensiones.
-- La propuesta de portar el núcleo a C++ solo alcanzaría a la parte stdlib; lo simbólico seguiría en Python
-  (coherente con el puente pybind11 de los documentos).
+- La propuesta de portar el núcleo a C++ ([ADR 0002](0002-nucleo-cpp.md)) solo alcanzaría a la parte
+  stdlib; lo simbólico seguiría en Python, conectado por pybind11.
 - Cualquier otra dependencia requiere preguntar a Arrds y un ADR nuevo.

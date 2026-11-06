@@ -43,4 +43,4 @@ corresponde a qué nodo del árbol. Eso impide funciones que distinguen a una ca
 - El render es parte del núcleo C++ y comparte el AST con el parser y el evaluador.
 - Fase 2 es un proyecto de meses; no bloquea nada porque la fase 1 funciona desde el principio.
 - Las extensiones declarativas ([ADR 0004](0004-extensiones.md)) podrán aportar estilos de render.
-- Licencias: MicroTeX (MIT) y fuentes OFL son compatibles con el modelo de pago único.
+- Licencias: MicroTeX (MIT) y fuentes OFL son compatibles con la licencia MPL-2.0 del proyecto.

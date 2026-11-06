@@ -23,7 +23,7 @@
 - [x] `CONTRIBUTING.md`
 - [ ] Código de conducta y plantillas de issues/PR en GitHub
 - [x] Política de dependencias: híbrido con SymPy obligatorio ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md))
-- [ ] CI en GitHub Actions que corra tests + banco en cada push (el roadmap de los documentos pone CI primero)
+- [x] CI en GitHub Actions que corra tests + banco en cada push/PR (`.github/workflows/ci.yml`)
 
 ## v0.2 — Matemática A y B (cálculo)
 
@@ -42,14 +42,13 @@
 - [ ] Explicación paso a paso en los resultados (campo `steps`), alineado con la pedagogía del producto
 - [ ] Cascada de fallback hacia precisión extendida con mpmath
 
-## v0.3+ — integración con Arrds Studio
+## v0.3+ — calculadora gráfica en Qt/C++
 
 - [x] Motor Python: `log(x)` pasa a base 10 (decisión D6 de [ESPECIFICACION.md](lenguaje/ESPECIFICACION.md)); actualizar evaluador, derivada simbólica, LaTeX, banco, tests y convenciones
 - [ ] Especificar el lenguaje LaTeX con Arrds ([docs/lenguaje/](lenguaje/README.md)), de lo simple al cálculo
 - [ ] Spike C++/Qt: parser LaTeX mínimo + evaluador por bytecode + curva con deslizador ([ADR 0002](adr/0002-nucleo-cpp.md))
 - [ ] Render matemático propio desde el AST, después de MicroTeX ([ADR 0003](adr/0003-render-propio.md))
 - [ ] Extensiones declarativas (nivel 1); con código más adelante ([ADR 0004](adr/0004-extensiones.md))
-- [ ] Spike del puente **pybind11** con este contrato (según los documentos de contexto)
+- [ ] Spike del puente **pybind11** entre el núcleo C++ y el motor Python de referencia
 - [ ] Núcleo C++20 validado contra el banco exportado (`--export`) ([ADR 0002](adr/0002-nucleo-cpp.md))
 - [ ] Rendimiento: perfiles, casos grandes, límites de tiempo por operación
-- [ ] **(propuesta)** HAL / capa de orquestación para el `MathAgent` del orquestador multi-agente
