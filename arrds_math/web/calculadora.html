@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arrds Studio · Calculadora (maqueta)</title>
+<style>
+  /* Maqueta estática para guiar la construcción en Qt (ADR 0002). No llama al motor:
+     solo fija layout, tipos de celda y el patrón deslizador → curva que pide el spike.
+     Misma estética "Ruido Cero" (propuesta) que arrds_math/web/index.html. */
+  :root {
+    --bg: #000000; --panel: #0a0a0a; --line: #1f1f1f; --line2: #2c2c2c;
+    --fg: #f2f2f2; --dim: #8a8a8a; --accent: #00e5ff; --accent-dim: #00e5ff22;
+    --ok: #22c55e; --warn: #eab308; --bad: #ef4444;
+    --def: #e879f9; --fun: #00e5ff; --eq: #eab308; --curve: #22c55e;
+    --ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 14px/1.45 var(--ui); }
+  button, input { font: inherit; color: inherit; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+  .brand { font-weight: 600; letter-spacing: .02em; }
+  .brand b { color: var(--accent); font-weight: 600; }
+  .brand small { color: var(--dim); font-size: 12px; font-weight: 400; margin-left: 4px; }
+  .views { display: flex; gap: 4px; margin-left: 12px; }
+  .view-btn { background: none; border: 1px solid transparent; padding: 5px 12px; border-radius: 6px; cursor: pointer; color: var(--dim); }
+  .view-btn.active { color: var(--fg); border-color: var(--line2); background: var(--panel); }
+  .spacer { flex: 1; }
+  .badge { font: 12px var(--mono); color: var(--dim); border: 1px solid var(--line2); border-radius: 6px; padding: 4px 10px; }
+
+  main { display: flex; height: calc(100% - 49px); }
+
+  /* --- columna de celdas (vista algebraica) --- */
+  #cells { width: 400px; flex: none; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+  #cell-list { flex: 1; overflow-y: auto; padding: 10px; }
+  .cell { border: 1px solid var(--line); border-left: 3px solid var(--line2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; background: var(--panel); cursor: pointer; }
+  .cell.active { border-color: var(--line2); border-left-color: var(--accent); background: var(--accent-dim); }
+  .cell.tag-def { border-left-color: var(--def); }
+  .cell.tag-fun { border-left-color: var(--fun); }
+  .cell.tag-eq { border-left-color: var(--eq); }
+  .cell.tag-curve { border-left-color: var(--curve); }
+  .cell-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .cell-idx { font: 11px var(--mono); color: var(--dim); }
+  .cell-tag { font: 10px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--dim); }
+  .cell.tag-def .cell-tag { color: var(--def); }
+  .cell.tag-fun .cell-tag { color: var(--fun); }
+  .cell.tag-eq .cell-tag { color: var(--eq); }
+  .cell.tag-curve .cell-tag { color: var(--curve); }
+  .cell-body { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .cell-expr { font: 15px var(--mono); }
+  .cell-expr sup { font-size: .7em; }
+  .cell-result { font: 15px var(--mono); color: var(--accent); white-space: nowrap; }
+  .cell-dom { font: 11px var(--mono); color: var(--dim); margin-top: 4px; }
+  .cell-actions { display: flex; gap: 6px; margin-top: 8px; }
+  .mini { background: none; border: 1px solid var(--line2); color: var(--dim); border-radius: 5px; padding: 3px 9px; font: 11px var(--mono); cursor: pointer; }
+  .mini:hover { color: var(--fg); border-color: var(--accent); }
+
+  #add-cell { margin: 0 10px 10px; background: none; border: 1px dashed var(--line2); color: var(--dim); border-radius: 8px; padding: 8px; cursor: pointer; font: 13px var(--mono); }
+  #add-cell:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* --- teclado LaTeX (nivel 1-3 del catálogo) --- */
+  #keyboard { border-top: 1px solid var(--line); padding: 8px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+  #keyboard button { background: var(--panel); border: 1px solid var(--line2); border-radius: 6px; padding: 8px 0; font: 13px var(--mono); cursor: pointer; }
+  #keyboard button:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* --- vista gráfica --- */
+  #graph { flex: 1; display: flex; flex-direction: column; }
+  #graph-toolbar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+  #graph-toolbar .label { font: 12px var(--mono); color: var(--dim); }
+  #graph-canvas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  svg.plot { width: 100%; max-width: 760px; height: auto; display: block; }
+  svg.plot text { fill: var(--dim); font: 11px var(--mono); }
+  #sliders { border-top: 1px solid var(--line); padding: 14px 20px; }
+  .slider-row { display: flex; align-items: center; gap: 12px; font: 13px var(--mono); margin-bottom: 4px; }
+  .slider-row span.name { color: var(--fun); width: 90px; }
+  .slider-row input[type=range] { flex: 1; accent-color: var(--accent); }
+  .slider-row span.val { width: 50px; text-align: right; color: var(--fg); }
+  .hint-line { color: var(--dim); font-size: 12px; margin-top: 2px; }
+
+  @media (max-width: 860px) { main { flex-direction: column; } #cells { width: auto; border-right: none; border-bottom: 1px solid var(--line); max-height: 48vh; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>Arrds</b> Studio <small>· calculadora — maqueta HTML, guía para Qt (ADR 0002)</small></div>
+  <div class="views">
+    <button class="view-btn active" data-view="2d">2D</button>
+    <button class="view-btn" data-view="1d">1D</button>
+    <button class="view-btn" data-view="3d">3D</button>
+  </div>
+  <div class="spacer"></div>
+  <span class="badge">motor: referencia Python (no conectado en esta maqueta)</span>
+</header>
+<main>
+  <section id="cells">
+    <div id="cell-list"></div>
+    <button id="add-cell">+ nueva celda</button>
+    <div id="keyboard"></div>
+  </section>
+  <section id="graph">
+    <div id="graph-toolbar">
+      <span class="label">ventana gráfica —</span>
+      <span id="graph-caption" style="font:13px var(--mono)"></span>
+    </div>
+    <div id="graph-canvas-wrap"></div>
+    <div id="sliders">
+      <div class="slider-row">
+        <span class="name">a =</span>
+        <input type="range" id="slider-a" min="-3" max="3" step="0.1" value="1">
+        <span class="val" id="slider-a-val">1.0</span>
+      </div>
+      <div class="hint-line">Deslizador para la letra sin definir en la celda activa (3.7 del catálogo). En Qt: recalcular la curva por cuadro, no por evaluación aislada — ver criterio de aceptación del ADR 0002.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+
+// Celdas de ejemplo: una por cada tipo que distingue el catálogo (§2.1, §3.1, §3.7).
+// "expr" usa HTML mínimo (sup/sub) solo para la maqueta; el motor real no reemplaza esto por eval ni innerHTML con datos de usuario.
+const CELLS = [
+  { tag: "def", tagLabel: "definición", expr: "a = 1", result: "", actions: [] },
+  { tag: "fun", tagLabel: "función", expr: "f(x) = a \\cdot \\sin(x)", result: "", dom: "Dom: x ∈ ℝ",
+    actions: ["analizar"], curve: true },
+  { tag: "eq", tagLabel: "ecuación", expr: "2x + 3 = 7", result: "x = 2", actions: ["resolver"] },
+  { tag: "curve", tagLabel: "curva implícita", expr: "x^{2} + y^{2} = 1", result: "", actions: ["graficar"] },
+  { tag: "eq", tagLabel: "simplificación", expr: "\\frac{x^{2}-1}{x-1}", result: "", actions: ["simplificar"] },
+];
+
+function renderLatexish(s) {
+  // Render visual aproximado (no es el motor LaTeX real): ^{...} y \frac{a}{b} a texto con sup,
+  // solo para que la maqueta se lea; Qt usará MicroTeX (ADR 0002/0003).
+  return s
+    .replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, "($1)/($2)")
+    .replace(/\\cdot/g, "·").replace(/\\sin/g, "sen").replace(/\\sqrt/g, "√")
+    .replace(/\^\{([^}]*)\}/g, "<sup>$1</sup>");
+}
+
+let active = 1; // índice de la celda activa (la función con el deslizador 'a')
+
+function buildCells() {
+  const list = $("cell-list");
+  list.replaceChildren();
+  CELLS.forEach((c, i) => {
+    const row = document.createElement("div");
+    row.className = `cell tag-${c.tag}` + (i === active ? " active" : "");
+    row.innerHTML = `
+      <div class="cell-head"><span class="cell-idx">#${i + 1}</span><span class="cell-tag">${c.tagLabel}</span></div>
+      <div class="cell-body">
+        <span class="cell-expr">${renderLatexish(c.expr)}</span>
+        ${c.result ? `<span class="cell-result">→ ${c.result}</span>` : ""}
+      </div>
+      ${c.dom ? `<div class="cell-dom">${c.dom}</div>` : ""}
+      ${c.actions.length ? `<div class="cell-actions">${c.actions.map((a) => `<button class="mini">${a}</button>`).join("")}</div>` : ""}
+    `;
+    row.addEventListener("click", () => { active = i; buildCells(); });
+    list.append(row);
+  });
+}
+
+// Teclado: solo los símbolos que el catálogo ya define (nivel 1, aritmética).
+const KEYS = ["x²", "√", "\\frac{}{}", "\\cdot", "\\div", "( )", "|x|", "x^{}", "π", "n!", "\\lfloor\\rfloor", "%"];
+function buildKeyboard() {
+  const kb = $("keyboard");
+  kb.replaceChildren();
+  for (const k of KEYS) {
+    const b = document.createElement("button");
+    b.textContent = k;
+    b.title = "Inserta el símbolo en la celda activa (maqueta: sin editor real)";
+    kb.append(b);
+  }
+}
+
+// --- gráfica: y = a·sin(x), la curva de la celda activa con deslizador 'a' ---
+function drawCurve(a) {
+  const NS = "http://www.w3.org/2000/svg", W = 760, H = 380, m = { l: 50, r: 16, t: 16, b: 34 };
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("class", "plot");
+  const add = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); svg.append(n); return n; };
+  const xmin = -10, xmax = 10, ymin = -3.2, ymax = 3.2;
+  const sx = (x) => m.l + (x - xmin) / (xmax - xmin) * (W - m.l - m.r);
+  const sy = (y) => H - m.b - (y - ymin) / (ymax - ymin) * (H - m.t - m.b);
+  add("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "none", stroke: "#2c2c2c" });
+  if (ymin < 0 && ymax > 0) add("line", { x1: m.l, x2: W - m.r, y1: sy(0), y2: sy(0), stroke: "#3a3a3a" });
+  if (xmin < 0 && xmax > 0) add("line", { x1: sx(0), x2: sx(0), y1: m.t, y2: H - m.b, stroke: "#3a3a3a" });
+  let d = "";
+  for (let i = 0; i <= 400; i++) {
+    const x = xmin + (xmax - xmin) * i / 400, y = a * Math.sin(x);
+    d += `${i === 0 ? "M" : "L"}${sx(x).toFixed(1)},${sy(y).toFixed(1)}`;
+  }
+  add("path", { d, fill: "none", stroke: "#00e5ff", "stroke-width": 1.8 });
+  const pt = add("circle", { cx: sx(2), cy: sy(a * Math.sin(2)), r: 4, fill: "#f2f2f2" });
+  return svg;
+}
+
+function updateGraph() {
+  const a = parseFloat($("slider-a").value);
+  $("slider-a-val").textContent = a.toFixed(1);
+  $("graph-caption").textContent = `f(x) = ${a.toFixed(1)}·sin(x)`;
+  $("graph-canvas-wrap").replaceChildren(drawCurve(a));
+}
+
+$("slider-a").addEventListener("input", updateGraph);
+document.querySelectorAll(".view-btn").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll(".view-btn").forEach((x) => x.classList.toggle("active", x === b));
+}));
+$("add-cell").addEventListener("click", () => { CELLS.push({ tag: "def", tagLabel: "definición", expr: "", result: "", actions: [] }); active = CELLS.length - 1; buildCells(); });
+
+buildCells();
+buildKeyboard();
+updateGraph();
+</script>
+</body>
+</html>
