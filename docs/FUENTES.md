@@ -3,6 +3,11 @@
 Material de referencia para definir el lenguaje de la calculadora, los métodos del motor y los casos del
 banco de verificación. Los libros están en la biblioteca personal de Arrds (fuera del repositorio).
 
+**Disponibilidad confirmada (04/11/2026):** los 40 libros de abajo están en mano. Todos aportan a algún
+nivel del catálogo o módulo del motor, ya sea actual o del roadmap ([docs/TAREAS.md](TAREAS.md)); ninguno
+de la biblioteca queda fuera de alcance. Dos están **escaneados sin texto** (marcados ⚠ abajo): piden OCR
+antes de poder buscar en ellos por ejercicio o tema.
+
 ## Política de uso (el repositorio es público, bajo MPL-2.0)
 
 | Uso | ¿Se puede? |
@@ -32,6 +37,7 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
 - Di Domenicantonio, Lubomirsky y Rivera — *Matemática inicial para Ingeniería* (ed. 2025, UNLP)
 - Stewart, Redlin, Watson — *Precálculo: Matemáticas para el cálculo*, 6.ª y 7.ª ed. (también en inglés, 7.ª ed.)
 - Swokowski, Cole — *Álgebra y trigonometría con geometría analítica*, 12.ª y 13.ª ed. (también en inglés, 12.ª ed.)
+  — especialmente útil para el nivel 4 (trigonometría), próximo paso del catálogo
 
 ### Nivel 8: cálculo — Matemática A y B
 
@@ -67,9 +73,10 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
 
 ### Métodos numéricos (`numeric`, análisis de error)
 
-- Burden, Faires (Burden) — *Numerical Analysis*, 9.ª ed. (la 10.ª está escaneada, sin texto)
+- Burden, Faires (Burden) — *Numerical Analysis*, 9.ª ed.; también la 10.ª ed. ⚠ (escaneada, sin texto;
+  no aporta más que la 9.ª hasta tener OCR)
 - Chapra, Canale — *Métodos numéricos para ingenieros*, 7.ª ed.
-- Hamming — *Numerical Methods for Scientists and Engineers*, 2.ª ed. (escaneado, sin texto)
+- Hamming — *Numerical Methods for Scientists and Engineers*, 2.ª ed. ⚠ (escaneado, sin texto)
 
 ### Probabilidad y estadística (`stats`)
 
@@ -87,9 +94,9 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
 
 Pueden tener licencia abierta; hay que revisar la página de créditos de cada uno antes de usar algo más que citas.
 
-| Material | Licencia |
-|---|---|
-| *Matemática inicial para Ingeniería* (Di Domenicantonio, Lubomirsky, Rivera) | *por verificar* |
-| *Cálculo diferencial* (Búcari, Langoni, Vallejo) | *por verificar* |
-| *Ecuaciones diferenciales en Física* (Naón, Rossignoli, Santangelo) | *por verificar* |
-| Cuadernillos de cátedra de Matemática A, B, C y D | *por verificar* |
+| Material | En mano | Licencia |
+|---|---|---|
+| *Matemática inicial para Ingeniería* (Di Domenicantonio, Lubomirsky, Rivera) | sí | *por verificar* |
+| *Cálculo diferencial* (Búcari, Langoni, Vallejo) | sí | *por verificar* |
+| *Ecuaciones diferenciales en Física* (Naón, Rossignoli, Santangelo) | sí | *por verificar* |
+| Cuadernillos de cátedra de Matemática A, B, C y D | no, todavía por conseguir | *por verificar* |
