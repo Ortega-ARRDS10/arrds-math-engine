@@ -1,7 +1,7 @@
 # CLAUDE.md — arrds-math-engine
 
 Motor matemático y futura calculadora gráfica interactiva, implementación de referencia en Python.
-Autor: Arrds (UNLP), trabaja en español. Es una herramienta independiente: no forma parte de ningún
+Autor: Arrds, trabaja en español. Es una herramienta independiente: no forma parte de ningún
 producto ni ecosistema mayor.
 
 ## Comandos
