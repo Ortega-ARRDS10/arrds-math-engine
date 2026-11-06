@@ -23,7 +23,7 @@
 - [x] `CONTRIBUTING.md`
 - [ ] Código de conducta y plantillas de issues/PR en GitHub
 - [x] Política de dependencias: híbrido con SymPy obligatorio ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md))
-- [ ] CI en GitHub Actions que corra tests + banco en cada push (el roadmap de los documentos pone CI primero)
+- [x] CI en GitHub Actions que corra tests + banco en cada push/PR (`.github/workflows/ci.yml`)
 
 ## v0.2 — Matemática A y B (cálculo)
 
