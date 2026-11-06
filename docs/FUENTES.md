@@ -28,20 +28,20 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
    validar que el `error_estimate` del motor sea honesto.
 3. **Casos límite:** los ejercicios "difíciles" de los libros (singularidades, raíces múltiples, sistemas mal
    condicionados) son los que rompen motores ingenuos.
-4. **Alcance y orden de los niveles del catálogo**, alineados con las materias de la UNLP.
+4. **Alcance y orden de los niveles del catálogo**, alineados con el temario de matemática para ingeniería que cubre el motor.
 
 ## Bibliografía por nivel del catálogo y módulo del motor
 
 ### Niveles 1–5: aritmética, álgebra, funciones, trigonometría, exponenciales y logaritmos (D1001)
 
-- Di Domenicantonio, Lubomirsky y Rivera — *Matemática inicial para Ingeniería* (ed. 2025, UNLP)
+- Di Domenicantonio, Lubomirsky y Rivera — *Matemática inicial para Ingeniería* (ed. 2025)
 - Stewart, Redlin, Watson — *Precálculo: Matemáticas para el cálculo*, 6.ª y 7.ª ed. (también en inglés, 7.ª ed.)
 - Swokowski, Cole — *Álgebra y trigonometría con geometría analítica*, 12.ª y 13.ª ed. (también en inglés, 12.ª ed.)
   — especialmente útil para el nivel 4 (trigonometría), próximo paso del catálogo
 
 ### Nivel 8: cálculo — Matemática A y B
 
-- Búcari, Langoni y Vallejo — *Cálculo diferencial*, 1.ª ed. (UNLP)
+- Búcari, Langoni y Vallejo — *Cálculo diferencial*, 1.ª ed.
 - Stewart — *Calculus: Early Transcendentals*, 8.ª ed.
 - Thomas, Weir, Hass — *Thomas' Calculus: Early Transcendentals*, 13.ª ed.; Thomas, Hass, Heil, Weir — *Thomas' Calculus*, 14.ª ed.
 - Larson, Edwards — *Calculus*, 12.ª ed. (Int. Metric) y *Calculus: Early Transcendental Functions*, 5.ª ed.
@@ -59,7 +59,7 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
 - Edwards, Penney (y Calvis) — *Differential Equations and Boundary Value Problems*, 5.ª ed. / en español, 4.ª ed.; *Elementary Differential Equations*, 6.ª ed.
 - Boyce, DiPrima, Meade — *Elementary Differential Equations and Boundary Value Problems*, 11.ª ed.
 - Nagle, Saff, Snider — *Fundamentals of Differential Equations*, 9.ª ed.
-- Naón, Rossignoli y Santangelo — *Ecuaciones diferenciales en Física*, 1.ª ed. (UNLP)
+- Naón, Rossignoli y Santangelo — *Ecuaciones diferenciales en Física*, 1.ª ed.
 
 ### Análisis complejo, Fourier, Laplace (`signals`, Matemática D)
 
@@ -90,7 +90,7 @@ Ejemplo: `"reference": "Stewart, Calculus ET, 8.ª ed., ej. 2.3.15"`.
 - Vivaldi — *Mathematical Writing*
 - Velleman — *How to Prove It*, 3.ª ed.; Chartrand, Polimeni, Zhang — *Mathematical Proofs*, 4.ª ed.
 
-## Material de la UNLP: licencias a verificar
+## Material con licencia a verificar
 
 Pueden tener licencia abierta; hay que revisar la página de créditos de cada uno antes de usar algo más que citas.
 

@@ -216,7 +216,7 @@ al llegar a este nivel.
 | Id | Pregunta | Propuesta de Claude |
 |---|---|---|
 | D1 | ~~`\sin 2x`: ¿sen(2x) o sen(2)·x?~~ | **Resuelta por Arrds:** regla de las llaves (§4) |
-| D2 | ~~¿Se pueden redefinir `e`, `i`, `\pi`?~~ | **Resuelta por Arrds:** no; son constantes y en la universidad no se usan como variables. `e = 5` es error (para `i`, ver D14) |
+| D2 | ~~¿Se pueden redefinir `e`, `i`, `\pi`?~~ | **Resuelta por Arrds:** no; son constantes, no variables. `e = 5` es error (para `i`, ver D14) |
 | D3 | ~~¿Cuándo `d` es diferencial y cuándo variable?~~ | **Resuelta por Arrds:** el diferencial se escribe `\mathrm{d}` (d recta, ISO 80000): `\mathrm{d}y`, `\frac{\mathrm{d}y}{\mathrm{d}x}`, `\int{f}\,\mathrm{d}x`; `d` en cursiva siempre es variable. El editor ofrece un atajo que inserta `\mathrm{d}`. (Se descartó `\d{y}`: `\d` ya existe en LaTeX y falla en fórmulas) |
 | D4 | ~~¿Ángulos en radianes o grados?~~ | **Resuelta por Arrds:** radianes por defecto; grados se activan en la configuración; la calculadora muestra **siempre** un indicador RAD/DEG visible |
 | D5 | ~~¿Coma decimal o punto?~~ | **Resuelta por Arrds:** punto decimal; la coma separa coordenadas `(x, y, z)`, elementos de conjuntos `\{1, 2\}`, argumentos e índices |
