@@ -74,7 +74,6 @@ la interfaz final de la calculadora. Escucha solo en `127.0.0.1` y funciona sin 
 - [docs/FLUJO_DE_TRABAJO.md](docs/FLUJO_DE_TRABAJO.md) — ramas, cómo añadir una operación, definición de "listo".
 - [docs/TAREAS.md](docs/TAREAS.md) — roadmap.
 - [docs/FUENTES.md](docs/FUENTES.md) — bibliografía de referencia y política de uso de los libros.
-- [docs/BITACORA.md](docs/BITACORA.md) — historial de avance y decisiones por sesión.
 - [docs/POLITICA_DE_USO.md](docs/POLITICA_DE_USO.md) — alcance, responsabilidad, privacidad, licencia.
 - [docs/lenguaje/](docs/lenguaje/README.md) — lenguaje LaTeX de la calculadora: especificación y catálogo.
 - [docs/adr/](docs/adr/) — decisiones de arquitectura.

@@ -29,4 +29,3 @@ producto ni ecosistema mayor.
 ## Estado
 Plan: núcleo C++20 + Qt para una calculadora gráfica tipo GeoGebra; este motor Python pasa a ser referencia ([ADR 0002](docs/adr/0002-nucleo-cpp.md), propuesto hasta el spike).
 v0.1 completa; roadmap en [docs/TAREAS.md](docs/TAREAS.md). Rama de trabajo: `main`.
-Al empezar una sesión, leer el "Estado actual" de [docs/BITACORA.md](docs/BITACORA.md); al terminarla, añadir una entrada.
