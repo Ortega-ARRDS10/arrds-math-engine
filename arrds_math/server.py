@@ -152,7 +152,7 @@ def make_server(port=DEFAULT_PORT):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Panel de pruebas del motor matemático de Arrds Studio")
+    parser = argparse.ArgumentParser(description="Panel de pruebas del motor matemático arrds-math-engine")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
     args = parser.parse_args(argv)
     server = make_server(args.port)

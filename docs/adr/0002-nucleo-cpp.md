@@ -7,7 +7,7 @@
 ## Contexto
 
 Arrds va a construir con el motor una calculadora gráfica interactiva al estilo GeoGebra: cálculo, espacios
-2D y 3D, entrada y salida en LaTeX, interfaz en Qt 6 / C++ (como fijan los documentos de contexto).
+2D y 3D, entrada y salida en LaTeX, interfaz en Qt 6 / C++.
 
 Una calculadora interactiva evalúa expresiones millones de veces por segundo: cada deslizador que se mueve
 recalcula miles de puntos por curva y por cuadro; las curvas implícitas y las superficies 3D evalúan grillas
@@ -22,7 +22,7 @@ evaluación que C++, y llamarlo por punto a través de pybind11 suma costo y que
 2. **Todo en C++**, incluido un CAS propio. Máximo rendimiento; reimplementar integración simbólica y límites
    no es razonable.
 3. **C++ con CAS GPL** (Giac, el que usa GeoGebra; o GiNaC). Muy completo, pero la GPL obliga a distribuir
-   todo bajo GPL: incompatible con la licencia MPL-2.0 y con un posible producto pago futuro (ADR 0005).
+   todo bajo GPL: incompatible con la licencia MPL-2.0 del proyecto (ADR 0005).
 4. **Híbrido por camino de ejecución**: lo que corre por punto o por cuadro en C++; lo simbólico pesado en
    SymPy, fuera del camino caliente.
 

@@ -44,7 +44,3 @@ En pocas palabras (resumen informativo; lo que vale es el texto de la licencia):
 - Si distribuís archivos de este proyecto **modificados**, tenés que publicar esos archivos bajo MPL-2.0.
 - Podés combinarlo con código propio bajo otra licencia, incluso cerrado, en un producto mayor.
 - Se ofrece "tal cual", sin garantía.
-
-Los documentos de [contexto/](contexto/) también incluyen material personal (guías de aprendizaje,
-análisis de herramientas, datos de sponsors): revisá si querés que sean públicos antes de publicar el
-repositorio.

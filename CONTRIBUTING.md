@@ -1,6 +1,6 @@
 # Cómo contribuir
 
-¡Gracias por querer aportar a **arrds-math-engine**, el motor matemático de Arrds Studio! El proyecto se
+¡Gracias por querer aportar a **arrds-math-engine**, un motor matemático de referencia! El proyecto se
 trabaja en español: issues, pull requests, código y comentarios.
 
 ## Licencia de los aportes

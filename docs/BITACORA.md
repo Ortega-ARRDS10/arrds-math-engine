@@ -23,7 +23,7 @@ Reglas:
 | Tests | 66, todos pasan (última corrida verificada: 2026-10-30) |
 | Dependencias | SymPy + mpmath ([ADR 0001](adr/0001-implementacion-de-referencia-stdlib.md)) |
 | Licencia | MPL-2.0, código abierto ([ADR 0005](adr/0005-licencia-mpl.md)) |
-| Decisiones pendientes | qué parte de `docs/contexto/` es pública; MVP en una página |
+| Decisiones pendientes | MVP en una página |
 | Decisiones propuestas | ADR [0002](adr/0002-nucleo-cpp.md) (núcleo C++20 + Qt), [0003](adr/0003-render-propio.md) (render propio), [0004](adr/0004-extensiones.md) (extensiones) |
 | Lenguaje LaTeX | niveles 1 (aritmética), 2 (álgebra) y 3 (funciones elementales) definidos; niveles 4–9 pendientes |
 | Próximo paso | Nivel 4 (trigonometría) del [catálogo](lenguaje/CATALOGO.md) |
@@ -53,6 +53,34 @@ Reglas:
 
 **Commits:** `abc1234`, …
 ```
+
+---
+
+## 2026-11-06 — El repositorio deja de nombrar a Arrds Studio
+
+**Objetivo:** Arrds pidió que el repositorio no mencione a Arrds Studio ni ningún plan de precios: el motor
+es una herramienta independiente, no una pieza de un producto mayor.
+
+**Decisiones de Arrds:**
+- `arrds-math-engine` no referencia a Arrds Studio, al ecosistema multi-agente ni al modelo de negocio
+  (pago único / código abierto como etapa transitoria). La licencia **MPL-2.0** se mantiene, pero como
+  decisión propia del motor ([ADR 0005](adr/0005-licencia-mpl.md)), sin esa narrativa.
+- Comparaciones puramente técnicas (MATLAB por la convención de coeficientes, GeoGebra/Desmos por el
+  modelo de celdas) se mantienen: no son menciones del producto.
+
+**Hecho:**
+- Eliminados `docs/contexto/` (documentos originales del producto) y `docs/CONTEXTO.md` (su resumen).
+- `CLAUDE.md`, README, `CONTRIBUTING.md`, `pyproject.toml`, `arrds_math/__init__.py`, `server.py` y la
+  maqueta HTML de la calculadora, reescritos sin "Arrds Studio".
+- ADRs 0001–0005: se quita la justificación atada a los documentos de contexto y al modelo de pago único;
+  las decisiones técnicas (SymPy híbrido, núcleo C++20, render propio, extensiones, licencia MPL-2.0)
+  quedan igual, justificadas por necesidades propias del motor.
+- `docs/TAREAS.md`: la sección "integración con Arrds Studio" pasa a "calculadora gráfica en Qt/C++", sin
+  el ítem de HAL/orquestador multi-agente (`MathAgent`), que pertenecía a ese ecosistema.
+- `docs/POLITICA_DE_USO.md`: se quita el aviso sobre material personal de `docs/contexto/` (ya no existe).
+
+**Pendiente / próximo paso:**
+- [ ] Nivel 4 (trigonometría) del lenguaje.
 
 ---
 
@@ -115,7 +143,7 @@ módulo del motor, y las licencias de los materiales de la UNLP por verificar.
 **Decisiones de Arrds:**
 - Por el momento el proyecto es **código abierto** en GitHub para que otros aporten; quizás se cobre en el
   futuro. Licencia **MPL-2.0** ([ADR 0005](adr/0005-licencia-mpl.md)). Cambia el modelo de "pago único" de los
-  documentos de contexto (registrado en [CONTEXTO.md](CONTEXTO.md); los originales no se tocaron).
+  documentos de contexto (registrado entonces en `CONTEXTO.md`, eliminado el 2026-11-06; los originales no se tocaron).
 
 **Hecho:**
 - `LICENSE` con el texto oficial de MPL-2.0 (descargado de mozilla.org, 373 líneas).

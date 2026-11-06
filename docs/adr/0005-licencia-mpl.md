@@ -5,9 +5,7 @@
 
 ## Contexto
 
-Los documentos de contexto plantean Arrds Studio como producto de **pago único**. Arrds decidió que, por el
-momento, el proyecto se publica en GitHub como **código abierto** para que otros aporten, sin descartar
-cobrar en el futuro.
+Arrds decidió publicar el proyecto en GitHub como **código abierto** para que otros aporten.
 
 Sin un archivo `LICENSE`, un repositorio público no puede usarse ni recibir aportes legalmente. Y una vez que
 hay aportes de terceros, cambiar la licencia exige el permiso de cada autor: la elección debe hacerse antes.
@@ -25,13 +23,12 @@ hay aportes de terceros, cambiar la licencia exige el permiso de cada autor: la 
 
 ## Consecuencias
 
-- Las mejoras al motor vuelven a la comunidad; un futuro producto pago puede incluir el motor sin abrir su
-  propio código (por ejemplo, la interfaz o funciones exclusivas).
+- Las mejoras al motor vuelven a la comunidad; un producto mayor puede incluir el motor sin tener que
+  abrir su propio código (por ejemplo, una interfaz o funciones exclusivas), siempre que no modifique
+  archivos del propio motor sin publicar esos cambios.
 - **Dependencias:** se mantienen las licencias permitidas del [ADR 0002](0002-nucleo-cpp.md) (BSD, MIT,
-  Apache, BSL, OFL; LGPL solo con enlace dinámico). **GPL sigue prohibida:** incorporar código GPL obligaría a
-  distribuir todo el conjunto bajo GPL y cerraría la puerta al cobro futuro.
+  Apache, BSL, OFL; LGPL solo con enlace dinámico). **GPL sigue prohibida:** incorporar código GPL obligaría
+  a distribuir todo el conjunto bajo GPL.
 - Los aportes de terceros entran bajo MPL-2.0 (cláusula de "inbound = outbound" en
   [CONTRIBUTING.md](../../CONTRIBUTING.md)). Para **relicenciar** el proyecto en el futuro haría falta el
-  permiso de los contribuyentes; para **vender** un producto que lo incluya, no.
-- Los documentos de contexto que hablan de "pago único" no se modifican (son la fuente de verdad del
-  autor); el cambio de rumbo se registra en [CONTEXTO.md](../CONTEXTO.md) y en la bitácora.
+  permiso de los contribuyentes.
